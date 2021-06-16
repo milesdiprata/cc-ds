@@ -9,11 +9,18 @@ int main(const int argc, const char* const argv[]) {
         std::cout << word;
     }
 
-    auto ds = milesdiprata::datastructure::DynamicStack<int>(2);
+    auto s = milesdiprata::datastructure::RangeStack<int>(10);
     for (int i = 0; i < 5; ++i)
-        ds.Push(i);
-    while (ds.size())
-        std::cout << ds.Pop() << std::endl;
+        s.Push(i);
+    std::cout << s << std::endl;
+    std::cout << s.Minimum() << std::endl;
+    std::cout << s.Maximum() << std::endl;
+
+    s.Pop();
+    s.Pop();    
+    std::cout << s << std::endl;
+    std::cout << s.Minimum() << std::endl;
+    std::cout << s.Maximum() << std::endl;
 
     return 0;
 }

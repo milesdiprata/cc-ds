@@ -29,7 +29,7 @@ class DynamicStack {
     const T& Top() const;
 
     virtual void Push(const T& element);
-    virtual const T& Pop();
+    virtual const T Pop();
     virtual void Clear();
 
     friend std::ostream& operator<< <>(std::ostream& os, const DynamicStack& stack);
@@ -91,7 +91,7 @@ void DynamicStack<T>::Push(const T& element) {
 }
 
 template<typename T>
-const T& DynamicStack<T>::Pop() {
+const T DynamicStack<T>::Pop() {
     return stack_->Pop();
 }
 

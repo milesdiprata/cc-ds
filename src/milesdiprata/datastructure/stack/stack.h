@@ -32,7 +32,7 @@ class Stack {
     const T& Top() const;
 
     virtual void Push(const T& element);
-    virtual const T& Pop();
+    virtual const T Pop();
     virtual void Clear();
 
     friend std::ostream& operator<< <>(std::ostream& os, const Stack& stack);
@@ -101,11 +101,10 @@ void Stack<T>::Push(const T& element) {
 }
 
 template<typename T>
-const T& Stack<T>::Pop() {
-    if (Empty())
-        throw UnderflowError();
+const T Stack<T>::Pop() {
+    auto element = Top();
     --size_;
-    return elements_[size_];
+    return element;
 }
 
 template<typename T>
