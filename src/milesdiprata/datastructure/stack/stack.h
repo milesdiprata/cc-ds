@@ -2,6 +2,7 @@
 #define MILESDIPRATA_DATASTRUCTURE_STACK_H_
 
 #include <algorithm>
+#include <array>
 #include <iostream>
 #include <memory>
 #include <stdexcept>
@@ -20,9 +21,9 @@ std::ostream& operator<<(std::ostream &os, const Stack<T>& stack);
 template<typename T>
 class Stack {
  public:
-    Stack(const size_t capacity = kInitialCapacity);
+    Stack(const size_t capacity = kDefaultCapacity);
     Stack(const Stack& stack);
-    ~Stack();
+    virtual ~Stack();
 
     inline const size_t size() const { return size_; }
     inline const size_t capacity() const { return capacity_; }
@@ -30,14 +31,13 @@ class Stack {
     const bool Empty() const;
     const T& Top() const;
 
-    void Push(const T& element);
-    const T& Pop();
-    void Clear();
+    virtual void Push(const T& element);
+    virtual const T& Pop();
+    virtual void Clear();
 
     friend std::ostream& operator<< <>(std::ostream& os, const Stack& stack);
 
-    static constexpr size_t kInitialCapacity = 10;
-    static constexpr int kCapacityIncreaseFactor = 2;
+    static constexpr size_t kDefaultCapacity = 10;
 
  private:
     size_t capacity_;
@@ -48,6 +48,12 @@ class Stack {
         inline const char* what() const noexcept { return kErrorMessage.c_str(); }
 
         inline static const std::string kErrorMessage = "Stack Underflow!";
+    };
+
+    struct OverflowError : public std::exception {
+        inline const char* what() const noexcept { return kErrorMessage.c_str(); }
+
+        inline static const std::string kErrorMessage = "Stack Overflow!";
     };
 };
 
@@ -88,15 +94,8 @@ inline const T& Stack<T>::Top() const {
 
 template<typename T>
 void Stack<T>::Push(const T& element) {
-    if (size_ + 1 > capacity_) {
-        capacity_ *= kCapacityIncreaseFactor;
-        auto new_elements = std::make_unique<T[]>(capacity_);
-        std::copy(elements_.get(),
-                  elements_.get() + size_,
-                  new_elements.get());
-        elements_ = std::move(new_elements);
-    }
-
+    if (size_ + 1 > capacity_)
+        throw OverflowError();
     elements_[size_] = element;
     ++size_;
 }
@@ -111,10 +110,6 @@ const T& Stack<T>::Pop() {
 
 template<typename T>
 void Stack<T>::Clear() {
-    if (capacity_ != kInitialCapacity) {
-        capacity_ = kInitialCapacity;
-        elements_ = std::make_unique<T[]>(capacity_);
-    }
     size_ = 0;
 }
 
