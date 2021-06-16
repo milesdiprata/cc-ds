@@ -41,7 +41,6 @@ RangeStack<T>::RangeStack(const Stack<T>& stack) :
     auto elements = std::vector<T>();
     while (!stack.Empty())
         elements.push_back(stack.Pop());
-
     for (auto it = elements.rbegin(); it != elements.rend(); ++it)
         Push(*it);
 }

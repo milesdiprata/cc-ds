@@ -80,12 +80,10 @@ void DynamicStack<T>::Push(const T& element) {
         auto elements = std::vector<T>();
         while (!stack_->Empty())
             elements.push_back(stack_->Pop());
-        
-        auto new_stack = Stack<T>(stack_->capacity() * kCapacityIncreaseFactor);
+        stack_ = std::make_unique<Stack<T>>(stack_->capacity() * kCapacityIncreaseFactor);
         for (auto it = elements.rbegin(); it != elements.rend(); ++it)
-            new_stack.Push(*it);
-            
-        stack_ = std::make_unique<Stack<T>>(new_stack);
+            stack_->Push(*it);
+        
         stack_->Push(element);
     }
 }
