@@ -15,7 +15,7 @@ template<typename T>
 class Stack;
 
 template<typename T>
-std::ostream& operator<<(std::ostream &os, const Stack<T>& stack);
+std::ostream& operator<<(std::ostream& os, const Stack<T>& stack);
 
 template<typename T>
 class Stack {
@@ -112,7 +112,7 @@ void Stack<T>::Clear() {
 }
 
 template<typename T>
-std::ostream& operator<<(std::ostream &os, const Stack<T>& stack) {
+std::ostream& operator<<(std::ostream& os, const Stack<T>& stack) {
     os << "[";
     for (int i = stack.size_ - 1; i >= 0; --i) {
         os << stack.elements_[i];

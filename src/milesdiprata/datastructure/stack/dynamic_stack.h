@@ -12,7 +12,7 @@ template<typename T>
 class DynamicStack;
 
 template<typename T>
-std::ostream& operator<<(std::ostream &os, const DynamicStack<T>& stack);
+std::ostream& operator<<(std::ostream& os, const DynamicStack<T>& stack);
 
 template<typename T>
 class DynamicStack {
