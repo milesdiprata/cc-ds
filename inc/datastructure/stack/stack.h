@@ -74,7 +74,9 @@ void Stack<T>::Push(const T& element) {
     if (size_ + 1 > capacity_) {
         capacity_ *= kCapacityIncreaseFactor;
         auto new_elements = std::make_unique<T[]>(capacity_);
-        std::copy(elements_.get(), elements_.get() + size_, new_elements.get());
+        std::copy(elements_.get(),
+                  elements_.get() + size_,
+                  new_elements.get());
         elements_ = std::move(new_elements);
     }
 
@@ -113,7 +115,7 @@ std::ostream& operator<<(std::ostream &os, const Stack<T>& stack) {
 }
 
 
-}; // namespace datastructure
-}; // namespace milesdiprata
+} // namespace datastructure
+} // namespace milesdiprata
 
 #endif // MILESDIPRATA_DATASTRUCTURE_STACK_H_
