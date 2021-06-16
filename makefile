@@ -17,8 +17,8 @@ OBJEXT := o
 # Flags, libraries and includes
 CFLAGS := -Wall -Werror -std=c++17 -g
 LIB :=
-INC := -I$(INCDIR) -I/usr/local/include
-INCDEP := -I$(INCDIR)
+INC := -I$(SRCDIR) -I$(INCDIR) -I/usr/local/include
+INCDEP := -I$(SRCDIR) -I$(INCDIR)
 
 # Sources and objects
 SOURCES := $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))

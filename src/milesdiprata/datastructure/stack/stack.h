@@ -4,9 +4,9 @@
 #include <algorithm>
 #include <iostream>
 #include <memory>
+#include <stdexcept>
+#include <string>
 #include <type_traits>
-
-#include <exception/exception.h>
 
 namespace milesdiprata {
 namespace datastructure {
@@ -42,6 +42,12 @@ class Stack {
     size_t capacity_;
     size_t size_;
     std::unique_ptr<T[]> elements_;
+
+    struct UnderflowError : public std::exception {
+        inline const char* what() const noexcept { return kErrorMessage.c_str(); }
+
+        inline static const std::string kErrorMessage = "Stack Underflow!";
+    };
 };
 
 template<typename T>
@@ -65,7 +71,7 @@ inline const bool Stack<T>::Empty() const {
 template<typename T>
 inline const T& Stack<T>::Top() const {
     if (Empty())
-        throw Underflow();
+        throw UnderflowError();
     return elements_[size_ - 1];
 }
 
@@ -87,7 +93,7 @@ void Stack<T>::Push(const T& element) {
 template<typename T>
 const T& Stack<T>::Pop() {
     if (Empty())
-        throw Underflow();
+        throw UnderflowError();
     --size_;
     return elements_[size_];
 }
