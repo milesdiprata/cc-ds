@@ -114,14 +114,14 @@ void Stack<T>::Clear() {
 template<typename T>
 std::ostream& operator<<(std::ostream &os, const Stack<T>& stack) {
     os << "[";
-    for (int i = stack.size_ - 1; i >= 0; --i) {;
+    for (int i = stack.size_ - 1; i >= 0; --i) {
         os << stack.elements_[i];
         if (i != 0)
             os << " ";
     }
     os << "]";
 
-	return os;
+    return os;
 }
 
 
