@@ -1,6 +1,8 @@
 #ifndef MILESDIPRATA_DATASTRUCTURE_RANGE_STACK_H_
 #define MILESDIPRATA_DATASTRUCTURE_RANGE_STACK_H_
 
+#include <vector>
+
 #include <milesdiprata/datastructure/stack/stack.h>
 
 namespace milesdiprata {

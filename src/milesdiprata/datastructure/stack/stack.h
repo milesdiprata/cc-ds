@@ -2,7 +2,6 @@
 #define MILESDIPRATA_DATASTRUCTURE_STACK_H_
 
 #include <algorithm>
-#include <array>
 #include <iostream>
 #include <memory>
 #include <stdexcept>
