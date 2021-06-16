@@ -21,10 +21,11 @@ template<typename T>
 class Stack {
  public:
     Stack(const size_t capacity = kInitialCapacity);
+    Stack(const Stack& stack);
     ~Stack();
 
-    inline const size_t size() const {return size_; }
-    inline const size_t capacity() const {return capacity_; }
+    inline const size_t size() const { return size_; }
+    inline const size_t capacity() const { return capacity_; }
 
     const bool Empty() const;
     const T& Top() const;
@@ -55,6 +56,16 @@ Stack<T>::Stack(const size_t capacity) :
     capacity_(std::max((size_t)1, capacity)),
     size_(0),
     elements_(std::make_unique<T[]>(capacity)) {}
+
+template<typename T>
+Stack<T>::Stack(const Stack& stack) :
+    capacity_(stack.capacity_),
+    size_(stack.size_),
+    elements_(std::make_unique<T[]>(stack.capacity_)) {
+        std::copy(stack.elements_.get(),
+                  stack.elements_.get() + stack.size_,
+                  elements_.get());
+    }
 
 template<typename T>
 Stack<T>::~Stack() {
