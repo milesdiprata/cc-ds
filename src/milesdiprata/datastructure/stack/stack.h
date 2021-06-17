@@ -92,7 +92,7 @@ inline const T& Stack<T>::Top() const {
 }
 
 template<typename T>
-void Stack<T>::Push(const T& element) {
+inline void Stack<T>::Push(const T& element) {
     if (size_ + 1 > capacity_)
         throw OverflowError();
     elements_[size_] = element;
@@ -100,14 +100,14 @@ void Stack<T>::Push(const T& element) {
 }
 
 template<typename T>
-const T Stack<T>::Pop() {
+inline const T Stack<T>::Pop() {
     auto element = Top();
     --size_;
     return element;
 }
 
 template<typename T>
-void Stack<T>::Clear() {
+inline void Stack<T>::Clear() {
     size_ = 0;
 }
 

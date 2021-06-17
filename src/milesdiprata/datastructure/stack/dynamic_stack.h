@@ -89,12 +89,12 @@ void DynamicStack<T>::Push(const T& element) {
 }
 
 template<typename T>
-const T DynamicStack<T>::Pop() {
+inline const T DynamicStack<T>::Pop() {
     return stack_->Pop();
 }
 
 template<typename T>
-void DynamicStack<T>::Clear() {
+inline void DynamicStack<T>::Clear() {
     if (stack_->capacity() != initial_capacity_) {
         stack_ = std::make_unique<Stack<T>>(initial_capacity_);
     } else {
