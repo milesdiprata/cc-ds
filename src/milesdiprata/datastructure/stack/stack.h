@@ -48,6 +48,7 @@ class Stack {
     inline void set_size(const size_t size) { size_ = size; }
     inline size_t& mutable_size() { return size_; }
     
+    inline const std::unique_ptr<T[]>& elements() const { return elements_; }
     inline void clear_elements() { elements_ = std::make_unique<T[]>(capacity_); }
     inline std::unique_ptr<T[]>& mutable_elements() { return elements_; }
 
