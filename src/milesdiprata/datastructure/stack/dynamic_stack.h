@@ -9,103 +9,76 @@ namespace milesdiprata {
 namespace datastructure {
 
 template<typename T>
-class DynamicStack;
-
-template<typename T>
-std::ostream& operator<<(std::ostream& os, const DynamicStack<T>& stack);
-
-template<typename T>
-class DynamicStack {
+class DynamicStack : public Stack<T> {
  public:
     DynamicStack(const size_t capacity = Stack<T>::kDefaultCapacity);
     DynamicStack(const Stack<T>& stack);
     DynamicStack(const DynamicStack& stack);
     virtual ~DynamicStack();
 
-    inline const size_t size() const { return stack_->size(); }
-    inline const size_t capacity() const { return stack_->capacity(); }
-
-    const bool Empty() const;
-    const T& Top() const;
-
-    virtual void Push(const T& element);
-    virtual const T Pop();
-    virtual void Clear();
-
-    friend std::ostream& operator<< <>(std::ostream& os, const DynamicStack& stack);
+    // Implements Stack<T> ----------------------------------------------------
+    void Push(const T& element) override;
+    const T Pop() override;
+    void Clear() override;
 
     static constexpr int kCapacityIncreaseFactor = 2;
 
  private:
     size_t initial_capacity_;
-    std::unique_ptr<Stack<T>> stack_;
 };
 
 template<typename T>
 DynamicStack<T>::DynamicStack(const size_t capacity) :
-    initial_capacity_(capacity),
-    stack_(std::make_unique<Stack<T>>(capacity)) {}
+    Stack<T>(capacity),
+    initial_capacity_(capacity) {}
 
 template<typename T>
 DynamicStack<T>::DynamicStack(const Stack<T>& stack) :
-    initial_capacity_(stack.capacity_),
-    stack_(std::make_unique<Stack<T>>(stack)) {}
+    Stack<T>(stack),
+    initial_capacity_(stack.capacity_) {}
 
 template<typename T>
 DynamicStack<T>::DynamicStack(const DynamicStack& stack) :
-    initial_capacity_(stack.initial_capacity_),
-    stack_(std::make_unique<Stack<T>>(stack.stack_)) {}
+    Stack<T>(stack),
+    initial_capacity_(stack.initial_capacity_) {}
 
 template<typename T>
 DynamicStack<T>::~DynamicStack() {
     initial_capacity_ = 0;
-    stack_ = nullptr;
-}
-
-template<typename T>
-inline const bool DynamicStack<T>::Empty() const {
-    return stack_->Empty();
-}
-
-template<typename T>
-inline const T& DynamicStack<T>::Top() const {
-    return stack_->Top();
 }
 
 template<typename T>
 void DynamicStack<T>::Push(const T& element) {
     try {
-        stack_->Push(element);
-    } catch (const std::exception& error) {
-        auto elements = std::vector<T>();
-        while (!stack_->Empty())
-            elements.push_back(stack_->Pop());
-        stack_ = std::make_unique<Stack<T>>(stack_->capacity() * kCapacityIncreaseFactor);
-        for (auto it = elements.rbegin(); it != elements.rend(); ++it)
-            stack_->Push(*it);
-        
-        stack_->Push(element);
+        Stack<T>::Push(element);
+    } catch (const std::overflow_error& error) {
+        auto elements_copy = std::make_unique<T[]>(Stack<T>::size());
+        std::copy(Stack<T>::elements().get(),
+                  Stack<T>::elements().get() + Stack<T>::size(),
+                  elements_copy.get());
+
+        Stack<T>::set_capacity(Stack<T>::capacity() * kCapacityIncreaseFactor);
+        Stack<T>::clear_elements();
+        std::copy(elements_copy.get(),
+                  elements_copy.get() + Stack<T>::size(),
+                  Stack<T>::mutable_elements().get());
+
+        Stack<T>::Push(element);
     }
 }
 
 template<typename T>
 inline const T DynamicStack<T>::Pop() {
-    return stack_->Pop();
+    return Stack<T>::Pop();
 }
 
 template<typename T>
 inline void DynamicStack<T>::Clear() {
-    if (stack_->capacity() != initial_capacity_) {
-        stack_ = std::make_unique<Stack<T>>(initial_capacity_);
-    } else {
-        stack_->Clear();
+    if (Stack<T>::capacity() != initial_capacity_) {
+        Stack<T>::set_capacity(initial_capacity_);
+        Stack<T>::clear_elements();
     }
-}
-
-template<typename T>
-std::ostream& operator<<(std::ostream &os, const DynamicStack<T>& stack) {
-    os << *stack.stack_;
-	return os;
+    Stack<T>::Clear();
 }
 
 } // namespace datastructure

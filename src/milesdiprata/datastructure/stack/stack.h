@@ -52,11 +52,6 @@ class Stack {
     inline void clear_elements() { elements_ = std::make_unique<T[]>(capacity_); }
     inline std::unique_ptr<T[]>& mutable_elements() { return elements_; }
 
- private:
-    size_t capacity_;
-    size_t size_;
-    std::unique_ptr<T[]> elements_;
-
     struct UnderflowError : public std::underflow_error {
         UnderflowError() : std::underflow_error(kErrorMessage.c_str()) {}
 
@@ -68,6 +63,11 @@ class Stack {
 
         inline static const std::string kErrorMessage = "Stack Overflow!";
     };
+
+ private:
+    size_t capacity_;
+    size_t size_;
+    std::unique_ptr<T[]> elements_;
 };
 
 template<typename T>
