@@ -24,9 +24,9 @@ class Stack {
     Stack(const Stack& stack);
     virtual ~Stack();
 
-    inline const size_t size() const { return size_; }
     inline const size_t capacity() const { return capacity_; }
-
+    inline const size_t size() const { return size_; }
+    
     const bool Empty() const;
     const T& Top() const;
 
@@ -37,20 +37,33 @@ class Stack {
     friend std::ostream& operator<< <>(std::ostream& os, const Stack& stack);
 
     static constexpr size_t kDefaultCapacity = 10;
+    static constexpr size_t kMinimumCapacity = 1;
+
+ protected:
+    inline void clear_capacity() { capacity_ = 0; }
+    inline void set_capacity(const size_t capacity) { capacity_ = capacity; }
+    inline size_t& mutable_capacity() { return capacity_; }
+
+    inline void clear_size() { size_ = 0; }
+    inline void set_size(const size_t size) { size_ = size; }
+    inline size_t& mutable_size() { return size_; }
+    
+    inline void clear_elements() { elements_ = std::make_unique<T[]>(capacity_); }
+    inline std::unique_ptr<T[]>& mutable_elements() { return elements_; }
 
  private:
     size_t capacity_;
     size_t size_;
     std::unique_ptr<T[]> elements_;
 
-    struct UnderflowError : public std::exception {
-        inline const char* what() const noexcept { return kErrorMessage.c_str(); }
+    struct UnderflowError : public std::underflow_error {
+        UnderflowError() : std::underflow_error(kErrorMessage.c_str()) {}
 
         inline static const std::string kErrorMessage = "Stack Underflow!";
     };
 
-    struct OverflowError : public std::exception {
-        inline const char* what() const noexcept { return kErrorMessage.c_str(); }
+    struct OverflowError : public std::overflow_error {
+        OverflowError() : std::overflow_error(kErrorMessage.c_str()) {}
 
         inline static const std::string kErrorMessage = "Stack Overflow!";
     };
@@ -58,9 +71,9 @@ class Stack {
 
 template<typename T>
 Stack<T>::Stack(const size_t capacity) :
-    capacity_(std::max((size_t)1, capacity)),
+    capacity_(std::max(kMinimumCapacity, capacity)),
     size_(0),
-    elements_(std::make_unique<T[]>(capacity)) {}
+    elements_(std::make_unique<T[]>(capacity_)) {}
 
 template<typename T>
 Stack<T>::Stack(const Stack& stack) :
