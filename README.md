@@ -5,12 +5,14 @@
 
 
 
-<!-- TABLE OF CONTENTS -->
 <details open="open">
   <summary><h2 style="display: inline-block">Table of Contents</h2></summary>
   <ol>
     <li><a href="#about-the-project">About the Project</a></li>
     <li><a href="#data-structures">Data Structures</a></li>
+    <ol>
+      <li><a href="#stack-adt">Stack ADT</a></li>
+    </ol>
     <li><a href="#algorithms">Algorithms</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
@@ -34,6 +36,7 @@ of the software  implemented in this project:
   * Adhere to [Robert Martin](https://en.wikipedia.org/wiki/Robert_C._Martin)'s
     principles outlined in *Clean Code*
   * Adhere to [Google's C++ Style Guide](https://google.github.io/styleguide/cppguide.html)
+
 
 
 ## Data Structures
@@ -72,16 +75,71 @@ auto dyanmic_stack =
 dynamic_stack->Push("Hello, heap-space DynamicStack!");
 ```
 
+
 ### Stack ADT
-- [x] Static stack (`milesdiprata::datastructure::Stack`)
-- [x] Dynamic stack (`milesdiprata::datastructure::DynamicStack`)
-- [x] Range stack (`milesdiprata::datastructure::RangeStack`)
-- [x] Dynamic range stack (`milesdiprata::datastructure::DynamicRangeStack`)
+#### Stack as Array
+- [x] [Static stack](https://github.com/milesdiprata/cc-ds/blob/doc/src/milesdiprata/datastructure/stack/stack.h) (`milesdiprata::datastructure::Stack`)
+- [x] [Dynamic stack](https://github.com/milesdiprata/cc-ds/blob/doc/src/milesdiprata/datastructure/stack/dynamic_stack.h) (`milesdiprata::datastructure::DynamicStack`)
+- [x] [Range stack](https://github.com/milesdiprata/cc-ds/blob/doc/src/milesdiprata/datastructure/stack/range_stack.h) (`milesdiprata::datastructure::RangeStack`)
+- [x] [Dynamic range stack](https://github.com/milesdiprata/cc-ds/blob/doc/src/milesdiprata/datastructure/stack/dynamic_range_stack.h) (`milesdiprata::datastructure::DynamicRangeStack`)
+
+
+### Queue ADT
+#### Queue as Array
+- [] Queue
+
+
+### Double-Ended Queue (Deque)
+#### Deque as Array
+- [] Deque
+
+
+### Linked List ADT
+- [] Singly linked list
+- [] Doubly linked list
+- [] Sorted linked list
+- [] Circular linked list
+
+
+## Dictionary ADT
+- [] Hash set
+- [] Hash map
+
+
+#### Binary Tree ADT
+- [] Binary tree
+- [] Binary search tree
+- [] AVL (Adelson-Velsky and Landis) tree
+- [] Red-black tree
+
+
+### Tree ADT
+- [] B-tree
+- [] B+ tree
+
+
+### Priority Queue/Heap ADT
+- [] Binary Heap
+
+
+### Graph ADT
+- [] Undirected graph
+- [] Directed graph
 
 
 
 ## Algorithms
-<!-- TODO -->
+
+
+### Sorting
+- [] Bubble sort
+- [] Insertion sort
+- [] Selection sort
+- [] Merge sort
+- [] Quick sort
+- [] Heap sort
+- [] Counting sort
+- [] Radix sort
 
 
 ## License
