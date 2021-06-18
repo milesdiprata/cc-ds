@@ -1,15 +1,22 @@
 #ifndef MILESDIPRATA_DATASTRUCTURE_RANGE_STACK_H_
 #define MILESDIPRATA_DATASTRUCTURE_RANGE_STACK_H_
 
-#include <vector>
+#include <array>
 
+#include <milesdiprata/datastructure/stack/base_stack.h>
 #include <milesdiprata/datastructure/stack/stack.h>
 
 namespace milesdiprata {
 namespace datastructure {
 
 template<typename T>
-class RangeStack : public Stack<T> {
+class RangeStack;
+
+template<typename T>
+std::ostream& operator<<(std::ostream& os, const RangeStack<T>& stack);
+
+template<typename T>
+class RangeStack : public BaseStack<T> {
  public:
     RangeStack(const size_t capacity = Stack<T>::kDefaultCapacity);
     RangeStack(const Stack<T>& stack);
@@ -19,79 +26,113 @@ class RangeStack : public Stack<T> {
     const T& Minimum() const;
     const T& Maximum() const;
 
-    // Implements Stack<T> ----------------------------------------------------
-    void Push(const T& element) override;
-    const T Pop() override;
-    void Clear() override;
+    // Implements BaseStack<T> ------------------------------------------------
+    inline const size_t capacity() const override { return stack_->capacity(); }
+    inline const size_t size() const override { return stack_->size(); }
+    
+    inline const bool Empty() const override { return stack_->Empty(); }
+    inline const T& Top() const override { return stack_->Top(); }
+
+    void Push(const T& element) final;
+    const T Pop() final;
+    void Clear() final;
+
+    friend std::ostream& operator<< <>(std::ostream& os, const RangeStack& stack);
 
  protected:
-    inline const Stack<T>& minimum_stack() const { return minimum_stack_; }
-    inline Stack<T>& mutable_minimum_stack() { return minimum_stack_; }
+    inline const Stack<T>& stack() const { return *stack_; }
+    inline void set_stack(std::unique_ptr<Stack<T>>&& stack) { stack_ = std::move(stack); }
+    inline Stack<T>& mutable_stack() { return *stack_; }
 
-    inline const Stack<T>& maximum_stack() const { return minimum_stack_; }
-    inline Stack<T>& mutable_maximum_stack() { return maximum_stack_; }
+    inline const Stack<T>& minimum_stack() const { return *minimum_stack_; }
+    inline void set_minimum_stack(std::unique_ptr<Stack<T>>&& stack) { minimum_stack_ = std::move(stack); }
+    inline Stack<T>& mutable_minimum_stack() { return *minimum_stack_; }
 
- private:
-    Stack<T> minimum_stack_;
-    Stack<T> maximum_stack_;
+    inline const Stack<T>& maximum_stack() const { return *minimum_stack_; }
+    inline void set_maximum_stack(std::unique_ptr<Stack<T>>&& stack) { maximum_stack_ = std::move(stack); }
+    inline Stack<T>& mutable_maximum_stack() { return *maximum_stack_; }
+
+    void PushFromStack(const Stack<T>& stack);
+
+    std::unique_ptr<Stack<T>> stack_;
+    std::unique_ptr<Stack<T>> minimum_stack_;
+    std::unique_ptr<Stack<T>> maximum_stack_;
 };
 
 template<typename T>
 RangeStack<T>::RangeStack(const size_t capacity) :
-    Stack<T>(capacity),
-    minimum_stack_(Stack<T>(capacity)),
-    maximum_stack_(Stack<T>(capacity)) {}
+    stack_(new Stack<T>(capacity)),
+    minimum_stack_(std::make_unique<Stack<T>>(capacity)),
+    maximum_stack_(std::make_unique<Stack<T>>(capacity)) {}
 
 template<typename T>
 RangeStack<T>::RangeStack(const Stack<T>& stack) :
-    RangeStack(stack.capacity_) {
-    for (const auto& element : stack.elements())
-        Push(element);
+    RangeStack(stack.capacity()) {
+    PushFromStack();
 }
 
 template<typename T>
 RangeStack<T>::RangeStack(const RangeStack& stack) :
-    Stack<T>(stack),
-    minimum_stack_(Stack<T>(stack.minimum_stack_)),
-    maximum_stack_(Stack<T>(stack.maximum_stack_)) {}
+    stack_(std::make_unique<Stack<T>>(stack)),
+    minimum_stack_(std::make_unique<Stack<T>>(stack.minimum_stack_)),
+    maximum_stack_(std::make_unique<Stack<T>>(stack.maximum_stack_)) {}
 
 template<typename T>
-RangeStack<T>::~RangeStack() {}
+RangeStack<T>::~RangeStack() {
+    stack_ = nullptr;
+    minimum_stack_ = nullptr;
+    maximum_stack_ = nullptr;
+}
 
 template<typename T>
 inline const T& RangeStack<T>::Minimum() const {
-    return minimum_stack_.Top();
+    return minimum_stack_->Top();
 }
 
 template<typename T>
 inline const T& RangeStack<T>::Maximum() const {
-    return maximum_stack_.Top();
+    return maximum_stack_->Top();
 }
 
 template<typename T>
 inline void RangeStack<T>::Push(const T& element) {
-    Stack<T>::Push(element);
-    if (minimum_stack_.Empty() || element < minimum_stack_.Top())
-        minimum_stack_.Push(element);
-    if (maximum_stack_.Empty() || element > maximum_stack_.Top())
-        maximum_stack_.Push(element);
+    stack_->Push(element);
+    if (minimum_stack_->Empty() || element < minimum_stack_->Top())
+        minimum_stack_->Push(element);
+    if (maximum_stack_->Empty() || element > maximum_stack_->Top())
+        maximum_stack_->Push(element);
 }
 
 template<typename T>
 inline const T RangeStack<T>::Pop() {
-    auto element = Stack<T>::Pop();
-    if (!minimum_stack_.Empty() && minimum_stack_.Top() == element)
-        minimum_stack_.Pop();
-    if (!maximum_stack_.Empty() && maximum_stack_.Top() == element)
-        maximum_stack_.Pop();
+    auto element = stack_->Pop();
+    if (!minimum_stack_->Empty() && minimum_stack_->Top() == element)
+        minimum_stack_->Pop();
+    if (!maximum_stack_->Empty() && maximum_stack_->Top() == element)
+        maximum_stack_->Pop();
     return element;
 }
 
 template<typename T>
 inline void RangeStack<T>::Clear() {
-    Stack<T>::Clear();
-    minimum_stack_.Clear();
-    maximum_stack_.Clear();
+    stack_->Clear();
+    minimum_stack_->Clear();
+    maximum_stack_->Clear();
+}
+
+template<typename T>
+void RangeStack<T>::PushFromStack(const Stack<T>& stack) {
+    auto elements = std::array<T, stack.size()>();
+    for (auto it = elements.begin(); it != elements.end(); ++it)
+        *it = stack.Pop();
+    for (auto it = elements.rbegin(); it != elements.rend(); ++it)
+        Push(*it);
+}
+
+template<typename T>
+std::ostream& operator<<(std::ostream& os, const RangeStack<T>& stack) {
+    os << *stack.stack_;
+    return os;
 }
 
 } // namespace datastructure

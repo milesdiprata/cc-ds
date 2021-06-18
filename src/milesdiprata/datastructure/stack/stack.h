@@ -8,6 +8,8 @@
 #include <string>
 #include <type_traits>
 
+#include <milesdiprata/datastructure/stack/base_stack.h>
+
 namespace milesdiprata {
 namespace datastructure {
 
@@ -18,39 +20,27 @@ template<typename T>
 std::ostream& operator<<(std::ostream& os, const Stack<T>& stack);
 
 template<typename T>
-class Stack {
+class Stack : public BaseStack<T>{
  public:
     Stack(const size_t capacity = kDefaultCapacity);
     Stack(const Stack& stack);
     virtual ~Stack();
 
-    inline const size_t capacity() const { return capacity_; }
-    inline const size_t size() const { return size_; }
+    // Implements BaseStack<T> ------------------------------------------------
+    inline const size_t capacity() const override { return capacity_; }
+    inline const size_t size() const override { return size_; }
     
-    const bool Empty() const;
-    const T& Top() const;
+    const bool Empty() const override;
+    const T& Top() const override;
 
-    virtual void Push(const T& element);
-    virtual const T Pop();
-    virtual void Clear();
+    void Push(const T& element) override;
+    const T Pop() override;
+    void Clear() override;
 
     friend std::ostream& operator<< <>(std::ostream& os, const Stack& stack);
 
     static constexpr size_t kDefaultCapacity = 10;
     static constexpr size_t kMinimumCapacity = 1;
-
- protected:
-    inline void clear_capacity() { capacity_ = 0; }
-    inline void set_capacity(const size_t capacity) { capacity_ = capacity; }
-    inline size_t& mutable_capacity() { return capacity_; }
-
-    inline void clear_size() { size_ = 0; }
-    inline void set_size(const size_t size) { size_ = size; }
-    inline size_t& mutable_size() { return size_; }
-    
-    inline const std::unique_ptr<T[]>& elements() const { return elements_; }
-    inline void clear_elements() { elements_ = std::make_unique<T[]>(capacity_); }
-    inline std::unique_ptr<T[]>& mutable_elements() { return elements_; }
 
     struct UnderflowError : public std::underflow_error {
         UnderflowError() : std::underflow_error(kErrorMessage.c_str()) {}
@@ -63,6 +53,17 @@ class Stack {
 
         inline static const std::string kErrorMessage = "Stack Overflow!";
     };
+
+ protected:
+    inline void clear_capacity() { capacity_ = 0; }
+    inline void set_capacity(const size_t capacity) { capacity_ = capacity; }
+
+    inline void clear_size() { size_ = 0; }
+    inline void set_size(const size_t size) { size_ = size; }
+    
+    inline void clear_elements() { elements_ = std::make_unique<T[]>(capacity_); }
+    inline const std::unique_ptr<T[]>& elements() const { return elements_; }
+    inline std::unique_ptr<T[]>& mutable_elements() { return elements_; }
 
  private:
     size_t capacity_;
@@ -109,6 +110,7 @@ template<typename T>
 inline void Stack<T>::Push(const T& element) {
     if (size_ + 1 > capacity_)
         throw OverflowError();
+    
     elements_[size_] = element;
     ++size_;
 }

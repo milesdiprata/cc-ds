@@ -23,6 +23,11 @@ class DynamicStack : public Stack<T> {
 
     static constexpr int kCapacityIncreaseFactor = 2;
 
+//  protected:
+//     inline void clear_initial_capacity() { initial_capacity_ = 0; }
+//     inline const size_t& initial_capacity() const { return initial_capacity_; }
+//     inline void set_initial_capacity(const size_t initial_capacity) { initial_capacity_ = initial_capacity; }
+
  private:
     size_t initial_capacity_;
 };
@@ -35,7 +40,7 @@ DynamicStack<T>::DynamicStack(const size_t capacity) :
 template<typename T>
 DynamicStack<T>::DynamicStack(const Stack<T>& stack) :
     Stack<T>(stack),
-    initial_capacity_(stack.capacity_) {}
+    initial_capacity_(stack.capacity()) {}
 
 template<typename T>
 DynamicStack<T>::DynamicStack(const DynamicStack& stack) :
@@ -49,9 +54,7 @@ DynamicStack<T>::~DynamicStack() {
 
 template<typename T>
 void DynamicStack<T>::Push(const T& element) {
-    try {
-        Stack<T>::Push(element);
-    } catch (const std::overflow_error& error) {
+    if (Stack<T>::size() + 1 > Stack<T>::capacity()) {
         auto elements_copy = std::make_unique<T[]>(Stack<T>::size());
         std::copy(Stack<T>::elements().get(),
                   Stack<T>::elements().get() + Stack<T>::size(),
@@ -62,14 +65,17 @@ void DynamicStack<T>::Push(const T& element) {
         std::copy(elements_copy.get(),
                   elements_copy.get() + Stack<T>::size(),
                   Stack<T>::mutable_elements().get());
-
-        Stack<T>::Push(element);
     }
+        
+    Stack<T>::mutable_elements()[Stack<T>::size()] = element;
+    Stack<T>::set_size(Stack<T>::size() + 1);
 }
 
 template<typename T>
 inline const T DynamicStack<T>::Pop() {
-    return Stack<T>::Pop();
+    auto element = Stack<T>::Top();
+    Stack<T>::set_size(Stack<T>::size() - 1);
+    return element;
 }
 
 template<typename T>
@@ -78,7 +84,8 @@ inline void DynamicStack<T>::Clear() {
         Stack<T>::set_capacity(initial_capacity_);
         Stack<T>::clear_elements();
     }
-    Stack<T>::Clear();
+
+    Stack<T>::clear_size();
 }
 
 } // namespace datastructure
