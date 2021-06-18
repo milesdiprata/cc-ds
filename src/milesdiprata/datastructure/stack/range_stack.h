@@ -98,11 +98,7 @@ RangeStack<T>::RangeStack(const RangeStack& stack) :
     maximum_stack_(std::make_unique<Stack<T>>(stack.maximum_stack_)) {}
 
 template<typename T>
-RangeStack<T>::~RangeStack() {
-    stack_ = nullptr;
-    minimum_stack_ = nullptr;
-    maximum_stack_ = nullptr;
-}
+RangeStack<T>::~RangeStack() {}
 
 template<typename T>
 inline const T& RangeStack<T>::Minimum() const {

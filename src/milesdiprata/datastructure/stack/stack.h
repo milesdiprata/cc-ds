@@ -50,7 +50,7 @@ class Stack : public BaseStack<T>{
     struct OverflowError : public std::overflow_error {
         OverflowError() : std::overflow_error(kErrorMessage) {}
 
-        inline static const char* const kErrorMessage = "Stack Underflow!";
+        inline static const char* const kErrorMessage = "Stack Overflow!";
     };
 
     static constexpr size_t kDefaultCapacity = 10;
@@ -69,15 +69,14 @@ class Stack : public BaseStack<T>{
     inline void clear_elements() {
         elements_ = std::make_unique<T[]>(capacity_);
     }
+
     inline const std::unique_ptr<T[]>& elements() const { return elements_; }
 
     inline std::unique_ptr<T[]>& mutable_elements() { return elements_; }
 
  private:
     size_t capacity_;
-
     size_t size_;
-    
     std::unique_ptr<T[]> elements_;
 };
 
