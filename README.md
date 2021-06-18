@@ -21,11 +21,63 @@
 
 
 ## About The Project
-<!-- TODO -->
+This project contains my own implementation of fundamental data structures and
+algorithms. It serves as an exercise to not only practice implementing the
+theoretical knowledge, but also to practice writing industry-level code using 
+modern C++ concepts. In no particular order, the following describes the goals
+of the software  implemented in this project:
+* Optimality (*i.e.* optimal space and time complexities) 
+* Robustness (*i.e.* handle erroneous inputs)
+* Scalability (*i.e.* design such that adding complexity to existing code is
+               simple)
+* Readability
+  * Adhere to [Robert Martin](https://en.wikipedia.org/wiki/Robert_C._Martin)'s
+    principles outlined in *Clean Code*
+  * Adhere to [Google's C++ Style Guide](https://google.github.io/styleguide/cppguide.html)
 
 
 ## Data Structures
-<!-- TODO -->
+This section outlines the data strucutres implemented in this project. The data
+structures will be grouped by abstract data type (ADT) in a respective
+namespace and will all be contained within the `datastructure` namespace. For
+example, the `DynamicStack` data strucutre is an implementation of the `Stack`
+ADT, and may be used in the following manor:
+```cpp
+DynamicStack dynamic_stack = milesdiprata::stack::DynamicStack<std::string>();
+dynamic_stack.Push("Hello, DynamicStack!");
+```
+Alternatively,
+```cpp
+Stack* dynamic_stack = new milesdiprata::stack::DynamicStack<std::string>();
+dynamic_stack->Push("Hello, heap-space DynamicStack!");
+```
+However, if dynamic allocation is a must, then one should leverage smart
+pointers:
+```cpp
+std::unique_ptr<milesdiprata::stack::Stack> dynamic_stack =
+    std::make_unique<milesdiprata::stack::DynamicStack<std::string>>();
+dynamic_stack->Push("Hello, heap-space DynamicStack!");
+```
+These examples are simply meant to demonstrate the *implementation inheritance*
+that is used in this project. In practice, the above statements are quite long
+and I would personally use the `auto` keyword to save time. That is,
+```cpp
+// Preferred
+auto dynamic_stack = milesdiprata::stack::DynamicStack<std::string>();
+dynamic_stack.Push("Hello, DynamicStack!");
+
+// If dynamic allocation is a must
+auto dyanmic_stack =
+    std::make_unique<milesdiprata::stack::DynamicStack<std::string>>();
+dynamic_stack->Push("Hello, heap-space DynamicStack!");
+```
+
+### Stack ADT
+- [x] Static stack (`milesdiprata::datastructure::Stack`)
+- [x] Dynamic stack (`milesdiprata::datastructure::DynamicStack`)
+- [x] Range stack (`milesdiprata::datastructure::RangeStack`)
+- [x] Dynamic range stack (`milesdiprata::datastructure::DynamicRangeStack`)
+
 
 
 ## Algorithms
