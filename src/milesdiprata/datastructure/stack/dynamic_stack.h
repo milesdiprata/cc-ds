@@ -43,22 +43,20 @@ DynamicStack<T>::DynamicStack(const DynamicStack& stack) :
     initial_capacity_(stack.initial_capacity_) {}
 
 template<typename T>
-DynamicStack<T>::~DynamicStack() {
-    initial_capacity_ = 0;
-}
+DynamicStack<T>::~DynamicStack() {}
 
 template<typename T>
 void DynamicStack<T>::Push(const T& element) {
     if (Stack<T>::size() + 1 > Stack<T>::capacity()) {
-        auto elements_copy = std::make_unique<T[]>(Stack<T>::size());
+        auto elements = std::make_unique<T[]>(Stack<T>::size());
         std::copy(Stack<T>::elements().get(),
                   Stack<T>::elements().get() + Stack<T>::size(),
-                  elements_copy.get());
+                  elements.get());
 
         Stack<T>::set_capacity(Stack<T>::capacity() * kCapacityIncreaseFactor);
         Stack<T>::clear_elements();
-        std::copy(elements_copy.get(),
-                  elements_copy.get() + Stack<T>::size(),
+        std::copy(elements.get(),
+                  elements.get() + Stack<T>::size(),
                   Stack<T>::mutable_elements().get());
     }
         

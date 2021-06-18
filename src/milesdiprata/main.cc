@@ -5,6 +5,6 @@ int main(const int argc, const char* const argv[]) {
     for (const auto& word : words) {
         std::cout << word;
     }
-    
+
     return 0;
 }

@@ -1,8 +1,6 @@
 #ifndef MILESDIPRATA_DATASTRUCTURE_RANGE_STACK_H_
 #define MILESDIPRATA_DATASTRUCTURE_RANGE_STACK_H_
 
-#include <array>
-
 #include <milesdiprata/datastructure/stack/base_stack.h>
 #include <milesdiprata/datastructure/stack/stack.h>
 
@@ -64,15 +62,13 @@ class RangeStack : public BaseStack<T> {
 
     inline Stack<T>& mutable_minimum_stack() { return *minimum_stack_; }
 
-    inline const Stack<T>& maximum_stack() const { return *minimum_stack_; }
+    inline const Stack<T>& maximum_stack() const { return *maximum_stack_; }
 
     inline void set_maximum_stack(std::unique_ptr<Stack<T>>&& stack) {
         maximum_stack_ = std::move(stack);
     }
 
     inline Stack<T>& mutable_maximum_stack() { return *maximum_stack_; }
-
-    void PushFromStack(const Stack<T>& stack);
 
     std::unique_ptr<Stack<T>> stack_;
     std::unique_ptr<Stack<T>> minimum_stack_;
@@ -86,16 +82,10 @@ RangeStack<T>::RangeStack(const size_t capacity) :
     maximum_stack_(std::make_unique<Stack<T>>(capacity)) {}
 
 template<typename T>
-RangeStack<T>::RangeStack(const Stack<T>& stack) :
-    RangeStack(stack.capacity()) {
-    PushFromStack();
-}
-
-template<typename T>
 RangeStack<T>::RangeStack(const RangeStack& stack) :
-    stack_(std::make_unique<Stack<T>>(stack)),
-    minimum_stack_(std::make_unique<Stack<T>>(stack.minimum_stack_)),
-    maximum_stack_(std::make_unique<Stack<T>>(stack.maximum_stack_)) {}
+    stack_(std::make_unique<Stack<T>>(*stack.stack_)),
+    minimum_stack_(std::make_unique<Stack<T>>(*stack.minimum_stack_)),
+    maximum_stack_(std::make_unique<Stack<T>>(*stack.maximum_stack_)) {}
 
 template<typename T>
 RangeStack<T>::~RangeStack() {}
@@ -134,15 +124,6 @@ inline void RangeStack<T>::Clear() {
     stack_->Clear();
     minimum_stack_->Clear();
     maximum_stack_->Clear();
-}
-
-template<typename T>
-void RangeStack<T>::PushFromStack(const Stack<T>& stack) {
-    auto elements = std::array<T, stack.size()>();
-    for (auto it = elements.begin(); it != elements.end(); ++it)
-        *it = stack.Pop();
-    for (auto it = elements.rbegin(); it != elements.rend(); ++it)
-        Push(*it);
 }
 
 template<typename T>
