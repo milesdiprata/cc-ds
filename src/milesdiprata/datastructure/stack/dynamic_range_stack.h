@@ -1,6 +1,8 @@
 #ifndef MILESDIPRATA_DATASTRUCTURE_DYNAMIC_RANGE_STACK_H_
 #define MILESDIPRATA_DATASTRUCTURE_DYNAMIC_RANGE_STACK_H_
 
+#include <memory>
+
 #include <milesdiprata/datastructure/stack/dynamic_stack.h>
 #include <milesdiprata/datastructure/stack/range_stack.h>
 

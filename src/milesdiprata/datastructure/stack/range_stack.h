@@ -1,6 +1,10 @@
 #ifndef MILESDIPRATA_DATASTRUCTURE_RANGE_STACK_H_
 #define MILESDIPRATA_DATASTRUCTURE_RANGE_STACK_H_
 
+#include <iostream>
+#include <memory>
+#include <utility>
+
 #include <milesdiprata/datastructure/stack/base_stack.h>
 #include <milesdiprata/datastructure/stack/stack.h>
 
@@ -22,24 +26,17 @@ class RangeStack : public BaseStack<T> {
     virtual ~RangeStack();
 
     const T& Minimum() const;
-
     const T& Maximum() const;
 
     // Implements BaseStack<T> ------------------------------------------------
-    inline const size_t capacity() const override {
-        return stack_->capacity();
-    }
+    inline const size_t capacity() const final { return stack_->capacity(); }
+    inline const size_t size() const final { return stack_->size(); }
     
-    inline const size_t size() const override { return stack_->size(); }
-    
-    inline const bool Empty() const override { return stack_->Empty(); }
-
-    inline const T& Top() const override { return stack_->Top(); }
+    inline const bool Empty() const final { return stack_->Empty(); }
+    inline const T& Top() const final { return stack_->Top(); }
 
     void Push(const T& element) final;
-
     const T Pop() final;
-
     void Clear() final;
 
     friend std::ostream& operator<< <>(std::ostream& os,
@@ -47,28 +44,22 @@ class RangeStack : public BaseStack<T> {
 
  protected:
     inline const Stack<T>& stack() const { return *stack_; }
-
     inline void set_stack(std::unique_ptr<Stack<T>>&& stack) {
         stack_ = std::move(stack);
     }
-
-    inline Stack<T>& mutable_stack() { return *stack_; }
+    inline Stack<T>* mutable_stack() { return stack_.get(); }
 
     inline const Stack<T>& minimum_stack() const { return *minimum_stack_; }
-
     inline void set_minimum_stack(std::unique_ptr<Stack<T>>&& stack) {
         minimum_stack_ = std::move(stack);
     }
-
-    inline Stack<T>& mutable_minimum_stack() { return *minimum_stack_; }
+    inline Stack<T>* mutable_minimum_stack() { return minimum_stack_.get(); }
 
     inline const Stack<T>& maximum_stack() const { return *maximum_stack_; }
-
     inline void set_maximum_stack(std::unique_ptr<Stack<T>>&& stack) {
         maximum_stack_ = std::move(stack);
     }
-
-    inline Stack<T>& mutable_maximum_stack() { return *maximum_stack_; }
+    inline Stack<T>* mutable_maximum_stack() { return maximum_stack_.get(); }
 
     std::unique_ptr<Stack<T>> stack_;
     std::unique_ptr<Stack<T>> minimum_stack_;

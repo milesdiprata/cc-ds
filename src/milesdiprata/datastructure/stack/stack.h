@@ -26,17 +26,13 @@ class Stack : public BaseStack<T>{
 
     // Implements BaseStack<T> ------------------------------------------------
     inline const size_t capacity() const override { return capacity_; }
-
     inline const size_t size() const override { return size_; }
     
     const bool Empty() const override;
-
     const T& Top() const override;
 
     void Push(const T& element) override;
-
     const T Pop() override;
-
     void Clear() override;
 
     friend std::ostream& operator<< <>(std::ostream& os, const Stack& stack);
@@ -54,25 +50,20 @@ class Stack : public BaseStack<T>{
     };
 
     static constexpr size_t kDefaultCapacity = 10;
-
     static constexpr size_t kMinimumCapacity = 1;
 
  protected:
     inline void clear_capacity() { capacity_ = 0; }
-
     inline void set_capacity(const size_t capacity) { capacity_ = capacity; }
 
     inline void clear_size() { size_ = 0; }
-
     inline void set_size(const size_t size) { size_ = size; }
     
     inline void clear_elements() {
         elements_ = std::make_unique<T[]>(capacity_);
     }
-
     inline const std::unique_ptr<T[]>& elements() const { return elements_; }
-
-    inline std::unique_ptr<T[]>& mutable_elements() { return elements_; }
+    inline T* mutable_elements() { return elements_.get(); }
 
  private:
     size_t capacity_;

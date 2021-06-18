@@ -1,6 +1,9 @@
 #ifndef MILESDIPRATA_DATASTRUCTURE_DYNAMIC_STACK_H_
 #define MILESDIPRATA_DATASTRUCTURE_DYNAMIC_STACK_H_
 
+#include <algorithm>
+#include <memory>
+
 #include <milesdiprata/datastructure/stack/stack.h>
 
 namespace milesdiprata {
@@ -16,9 +19,7 @@ class DynamicStack : public Stack<T> {
 
     // Implements Stack<T> ----------------------------------------------------
     void Push(const T& element) override;
-
     const T Pop() override;
-    
     void Clear() override;
 
     static constexpr int kCapacityIncreaseFactor = 2;
