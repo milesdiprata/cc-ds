@@ -14,14 +14,20 @@ int main(const int argc, const char* const argv[]) {
         s.Push(i);
     std::cout << s << " s: " << s.size() << " c: " << s.capacity() << std::endl;
 
-    // std::cout << s.Minimum() << std::endl;
-    // std::cout << s.Maximum() << std::endl;
+    std::cout << s.Minimum() << std::endl;
+    std::cout << s.Maximum() << std::endl;
 
-    s.Push(11);
+    s.Push(10);
     std::cout << s << " s: " << s.size() << " c: " << s.capacity() << std::endl;
 
-    // s.Pop();
-    // std::cout << s << " s: " << s.size() << " c: " << s.capacity() << std::endl;
+    std::cout << s.Minimum() << std::endl;
+    std::cout << s.Maximum() << std::endl;
+
+    s.Pop();
+    std::cout << s << " s: " << s.size() << " c: " << s.capacity() << std::endl;
+
+    std::cout << s.Minimum() << std::endl;
+    std::cout << s.Maximum() << std::endl;
 
     // std::cout << s.Minimum() << std::endl;
     // std::cout << s.Maximum() << std::endl;

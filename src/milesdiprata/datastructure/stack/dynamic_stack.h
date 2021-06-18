@@ -1,8 +1,6 @@
 #ifndef MILESDIPRATA_DATASTRUCTURE_DYNAMIC_STACK_H_
 #define MILESDIPRATA_DATASTRUCTURE_DYNAMIC_STACK_H_
 
-#include <vector>
-
 #include <milesdiprata/datastructure/stack/stack.h>
 
 namespace milesdiprata {
@@ -18,15 +16,12 @@ class DynamicStack : public Stack<T> {
 
     // Implements Stack<T> ----------------------------------------------------
     void Push(const T& element) override;
+
     const T Pop() override;
+    
     void Clear() override;
 
     static constexpr int kCapacityIncreaseFactor = 2;
-
-//  protected:
-//     inline void clear_initial_capacity() { initial_capacity_ = 0; }
-//     inline const size_t& initial_capacity() const { return initial_capacity_; }
-//     inline void set_initial_capacity(const size_t initial_capacity) { initial_capacity_ = initial_capacity; }
 
  private:
     size_t initial_capacity_;

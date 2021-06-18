@@ -5,8 +5,6 @@
 #include <iostream>
 #include <memory>
 #include <stdexcept>
-#include <string>
-#include <type_traits>
 
 #include <milesdiprata/datastructure/stack/base_stack.h>
 
@@ -28,46 +26,58 @@ class Stack : public BaseStack<T>{
 
     // Implements BaseStack<T> ------------------------------------------------
     inline const size_t capacity() const override { return capacity_; }
+
     inline const size_t size() const override { return size_; }
     
     const bool Empty() const override;
+
     const T& Top() const override;
 
     void Push(const T& element) override;
+
     const T Pop() override;
+
     void Clear() override;
 
     friend std::ostream& operator<< <>(std::ostream& os, const Stack& stack);
 
-    static constexpr size_t kDefaultCapacity = 10;
-    static constexpr size_t kMinimumCapacity = 1;
-
     struct UnderflowError : public std::underflow_error {
-        UnderflowError() : std::underflow_error(kErrorMessage.c_str()) {}
+        UnderflowError() : std::underflow_error(kErrorMessage) {}
 
-        inline static const std::string kErrorMessage = "Stack Underflow!";
+        inline static const char* const kErrorMessage = "Stack Underflow!";
     };
 
     struct OverflowError : public std::overflow_error {
-        OverflowError() : std::overflow_error(kErrorMessage.c_str()) {}
+        OverflowError() : std::overflow_error(kErrorMessage) {}
 
-        inline static const std::string kErrorMessage = "Stack Overflow!";
+        inline static const char* const kErrorMessage = "Stack Underflow!";
     };
+
+    static constexpr size_t kDefaultCapacity = 10;
+
+    static constexpr size_t kMinimumCapacity = 1;
 
  protected:
     inline void clear_capacity() { capacity_ = 0; }
+
     inline void set_capacity(const size_t capacity) { capacity_ = capacity; }
 
     inline void clear_size() { size_ = 0; }
+
     inline void set_size(const size_t size) { size_ = size; }
     
-    inline void clear_elements() { elements_ = std::make_unique<T[]>(capacity_); }
+    inline void clear_elements() {
+        elements_ = std::make_unique<T[]>(capacity_);
+    }
     inline const std::unique_ptr<T[]>& elements() const { return elements_; }
+
     inline std::unique_ptr<T[]>& mutable_elements() { return elements_; }
 
  private:
     size_t capacity_;
+
     size_t size_;
+    
     std::unique_ptr<T[]> elements_;
 };
 
@@ -88,11 +98,7 @@ Stack<T>::Stack(const Stack& stack) :
     }
 
 template<typename T>
-Stack<T>::~Stack() {
-    capacity_ = 0;
-    size_ = 0;
-    elements_ = nullptr;
-}
+Stack<T>::~Stack() {}
 
 template<typename T>
 inline const bool Stack<T>::Empty() const {
@@ -110,7 +116,6 @@ template<typename T>
 inline void Stack<T>::Push(const T& element) {
     if (size_ + 1 > capacity_)
         throw OverflowError();
-    
     elements_[size_] = element;
     ++size_;
 }
@@ -139,7 +144,6 @@ std::ostream& operator<<(std::ostream& os, const Stack<T>& stack) {
 
     return os;
 }
-
 
 } // namespace datastructure
 } // namespace milesdiprata

@@ -24,32 +24,52 @@ class RangeStack : public BaseStack<T> {
     virtual ~RangeStack();
 
     const T& Minimum() const;
+
     const T& Maximum() const;
 
     // Implements BaseStack<T> ------------------------------------------------
-    inline const size_t capacity() const override { return stack_->capacity(); }
+    inline const size_t capacity() const override {
+        return stack_->capacity();
+    }
+    
     inline const size_t size() const override { return stack_->size(); }
     
     inline const bool Empty() const override { return stack_->Empty(); }
+
     inline const T& Top() const override { return stack_->Top(); }
 
     void Push(const T& element) final;
+
     const T Pop() final;
+
     void Clear() final;
 
-    friend std::ostream& operator<< <>(std::ostream& os, const RangeStack& stack);
+    friend std::ostream& operator<< <>(std::ostream& os,
+                                       const RangeStack& stack);
 
  protected:
     inline const Stack<T>& stack() const { return *stack_; }
-    inline void set_stack(std::unique_ptr<Stack<T>>&& stack) { stack_ = std::move(stack); }
+
+    inline void set_stack(std::unique_ptr<Stack<T>>&& stack) {
+        stack_ = std::move(stack);
+    }
+
     inline Stack<T>& mutable_stack() { return *stack_; }
 
     inline const Stack<T>& minimum_stack() const { return *minimum_stack_; }
-    inline void set_minimum_stack(std::unique_ptr<Stack<T>>&& stack) { minimum_stack_ = std::move(stack); }
+
+    inline void set_minimum_stack(std::unique_ptr<Stack<T>>&& stack) {
+        minimum_stack_ = std::move(stack);
+    }
+
     inline Stack<T>& mutable_minimum_stack() { return *minimum_stack_; }
 
     inline const Stack<T>& maximum_stack() const { return *minimum_stack_; }
-    inline void set_maximum_stack(std::unique_ptr<Stack<T>>&& stack) { maximum_stack_ = std::move(stack); }
+
+    inline void set_maximum_stack(std::unique_ptr<Stack<T>>&& stack) {
+        maximum_stack_ = std::move(stack);
+    }
+
     inline Stack<T>& mutable_maximum_stack() { return *maximum_stack_; }
 
     void PushFromStack(const Stack<T>& stack);

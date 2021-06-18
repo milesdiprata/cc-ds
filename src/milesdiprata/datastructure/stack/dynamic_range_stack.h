@@ -1,8 +1,6 @@
 #ifndef MILESDIPRATA_DATASTRUCTURE_DYNAMIC_RANGE_STACK_H_
 #define MILESDIPRATA_DATASTRUCTURE_DYNAMIC_RANGE_STACK_H_
 
-#include <vector>
-
 #include <milesdiprata/datastructure/stack/dynamic_stack.h>
 #include <milesdiprata/datastructure/stack/range_stack.h>
 
@@ -19,9 +17,12 @@ class DynamicRangeStack : public RangeStack<T> {
 
 template<typename T>
 DynamicRangeStack<T>::DynamicRangeStack(const size_t capacity) {
-    RangeStack<T>::set_stack(std::make_unique<DynamicStack<T>>(capacity));
-    RangeStack<T>::set_minimum_stack(std::make_unique<DynamicStack<T>>(capacity));
-    RangeStack<T>::set_maximum_stack(std::make_unique<DynamicStack<T>>(capacity));
+    RangeStack<T>::set_stack(
+        std::make_unique<DynamicStack<T>>(capacity));
+    RangeStack<T>::set_minimum_stack(
+        std::make_unique<DynamicStack<T>>(capacity));
+    RangeStack<T>::set_maximum_stack(
+        std::make_unique<DynamicStack<T>>(capacity));
 }
 
 template<typename T>
