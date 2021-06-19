@@ -1,8 +1,8 @@
 #ifndef MILESDIPRATA_DATASTRUCTURE_STATIC_STACK_AS_ARRAY_H_
 #define MILESDIPRATA_DATASTRUCTURE_STATIC_STACK_AS_ARRAY_H_
 
-#include <algorithm>
-#include <memory>
+#include <stdlib.h>
+
 #include <utility>
 
 #include <milesdiprata/datastructure/stack/stack.h>
