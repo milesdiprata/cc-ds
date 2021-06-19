@@ -54,15 +54,11 @@ class Stack {
         const bool Empty() const;
         const T& Front() const;
         const T& Back() const;
-        const T* const Begin() const;
-        const T* const End() const;
         void Resize(const size_t capacity);
 
         virtual void PushBack(const T& element);
         virtual const T PopBack();
         virtual void Clear();
-        T* Begin();
-        T* End();
 
         inline T& operator[](size_t i) { return array_[i]; }
         inline const T& operator[](size_t i) const { return array_[i]; }
@@ -71,13 +67,28 @@ class Stack {
         static constexpr size_t kMinimumCapacity = 1;
         
      private:
+
+        struct OutOfRangeError : public std::out_of_range {
+            OutOfRangeError() : std::out_of_range(kErrorMessage) {}
+
+            inline static const char* const kErrorMessage =
+                "DynamicStack array out of range!";
+        };
+
+        struct LengthError : public std::length_error {
+            LengthError() : std::length_error(kErrorMessage) {}
+
+            inline static const char* const kErrorMessage =
+                "DynamicStack array exceeded its capacity!";
+        };
+
         size_t capacity_;
         size_t size_;
         std::unique_ptr<T[]> array_;
     };
 
     inline const DynamicArray& array() const { return array_; }
-    inline DynamicArray& mutable_array() { return array_; }
+    inline DynamicArray& array() { return array_; }
 
     struct UnderflowError : public std::out_of_range {
         UnderflowError() : std::out_of_range(kErrorMessage) {}
@@ -157,35 +168,15 @@ inline const bool Stack<T>::DynamicArray::Empty() const {
 template<typename T>
 inline const T& Stack<T>::DynamicArray::Front() const {
     if (Empty())
-        throw std::out_of_range("Array");
+        throw OutOfRangeError();
     return array_[0];
 }
 
 template<typename T>
 inline const T& Stack<T>::DynamicArray::Back() const {
     if (Empty())
-        throw std::out_of_range("Array");
+        throw OutOfRangeError();
     return array_[size_ - 1];
-}
-
-template<typename T>
-inline const T* const Stack<T>::DynamicArray::Begin() const {
-    return array_.get();
-}
-
-template<typename T>
-inline const T* const Stack<T>::DynamicArray::End() const {
-    return array_.get() + array_.size();
-}
-
-template<typename T>
-inline T* Stack<T>::DynamicArray::Begin() {
-    return array_.get();
-}
-
-template<typename T>
-inline T* Stack<T>::DynamicArray::End() {
-    return array_.get() + array_.size();
 }
 
 template<typename T>
@@ -199,7 +190,7 @@ void Stack<T>::DynamicArray::Resize(const size_t capacity) {
 template<typename T>
 void Stack<T>::DynamicArray::PushBack(const T& element) {
     if (size_ + 1 > capacity_)
-        throw std::length_error("Array");
+        throw LengthError();
     array_[size_++] = element;
 }
 

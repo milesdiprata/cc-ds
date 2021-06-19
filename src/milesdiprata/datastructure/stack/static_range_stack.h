@@ -5,6 +5,7 @@
 
 #include <utility>
 
+#include <milesdiprata/datastructure/stack/stack.h>
 #include <milesdiprata/datastructure/stack/static_stack.h>
 
 namespace milesdiprata {
@@ -28,8 +29,8 @@ class StaticRangeStack : public StaticStack<T> {
     void Clear() override;
 
  private:
-    typename StaticStack<T>::DynamicArray minimum_array_;
-    typename StaticStack<T>::DynamicArray maximum_array_;
+    typename Stack<T>::DynamicArray minimum_array_;
+    typename Stack<T>::DynamicArray maximum_array_;
 };
 
 template<typename T>

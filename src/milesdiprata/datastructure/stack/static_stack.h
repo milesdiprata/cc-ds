@@ -3,6 +3,7 @@
 
 #include <stdlib.h>
 
+#include <stdexcept>
 #include <utility>
 
 #include <milesdiprata/datastructure/stack/stack.h>
@@ -43,17 +44,20 @@ StaticStack<T>::~StaticStack() {}
 
 template<typename T>
 inline void StaticStack<T>::Push(const T& element) {
-    Stack<T>::mutable_array().PushBack(element);
+    try
+        Stack<T>::array().PushBack(element);
+    catch (const std::length_error& error)
+        throw typename Stack<T>::OverflowError();
 }
 
 template<typename T>
 inline const T StaticStack<T>::Pop() {
-    return Stack<T>::mutable_array().PopBack();
+    return Stack<T>::array().PopBack();
 }
 
 template<typename T>
 inline void StaticStack<T>::Clear() {
-    Stack<T>::mutable_array().Clear();
+    Stack<T>::array().Clear();
 }
 
 } // namespace datastructure

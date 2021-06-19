@@ -3,7 +3,6 @@
 
 #include <stdlib.h>
 
-#include <stdexcept>
 #include <utility>
 
 #include <milesdiprata/datastructure/stack/stack.h>
@@ -26,6 +25,12 @@ class DynamicStack : public Stack<T> {
     void Clear() override;
 
     static constexpr int kCapacityIncreaseFactor = 2;
+
+ protected:
+    inline const size_t initial_capacity() const { return initial_capacity_; }
+    inline void set_initial_capacity(const size_t capacity) {
+        initial_capacity_ = capacity;
+    }
 
  private:
     size_t initial_capacity_;
@@ -56,41 +61,23 @@ DynamicStack<T>::~DynamicStack() {}
 
 template<typename T>
 void DynamicStack<T>::Push(const T& element) {
-    // if (Stack<T>::size() + 1 > Stack<T>::capacity()) {
-    //     auto elements = std::make_unique<T[]>(Stack<T>::size());
-    //     std::copy(Stack<T>::elements().get(),
-    //               Stack<T>::elements().get() + Stack<T>::size(),
-    //               elements.get());
-
-    //     Stack<T>::set_capacity(Stack<T>::capacity() * kCapacityIncreaseFactor);
-    //     Stack<T>::clear_elements();
-    //     std::copy(elements.get(),
-    //               elements.get() + Stack<T>::size(),
-    //               Stack<T>::mutable_elements().get());
-    // }
-        
-    // Stack<T>::mutable_elements()[Stack<T>::size()] = element;
-    // Stack<T>::set_size(Stack<T>::size() + 1);
-
-    try {
-        Stack<T>::mutable_array().PushBack(element);
-    } catch (const std::length_error& error) {
-        Stack<T>::mutable_array().Resize(Stack<T>::capacity() * kCapacityIncreaseFactor);
-        Stack<T>::mutable_array().PushBack(element);
-    }
+    if (Stack<T>::size() + 1 > Stack<T>::capacity())
+        Stack<T>::array().Resize(Stack<T>::capacity() *
+            kCapacityIncreaseFactor);
+    Stack<T>::array().PushBack(element);
 }
 
 template<typename T>
 inline const T DynamicStack<T>::Pop() {
-    return Stack<T>::mutable_array().PopBack();
+    return Stack<T>::array().PopBack();
 }
 
 template<typename T>
 inline void DynamicStack<T>::Clear() {
     if (Stack<T>::capacity() != initial_capacity_) {
-        Stack<T>::mutable_array().Resize(initial_capacity_);
+        Stack<T>::array().Resize(initial_capacity_);
     }
-    Stack<T>::mutable_array().Clear();
+    Stack<T>::array().Clear();
 }
 
 } // namespace datastructure
