@@ -95,11 +95,14 @@ dynamic_stack->Push("Hello, heap-space DynamicStack!");
 
 
 ### Stack ADT
-The stack ADTs are all currently implemented using *arrays*.
-- [x] [Static stack](https://github.com/milesdiprata/cc-ds/blob/doc/src/milesdiprata/datastructure/stack/stack.h) (`milesdiprata::datastructure::StaticStack`)
-- [x] [Dynamic stack](https://github.com/milesdiprata/cc-ds/blob/doc/src/milesdiprata/datastructure/stack/dynamic_stack.h) (`milesdiprata::datastructure::DynamicStack`)
-- [x] [Static range stack](https://github.com/milesdiprata/cc-ds/blob/doc/src/milesdiprata/datastructure/stack/range_stack.h) (`milesdiprata::datastructure::StaticRangeStack`)
-- [x] [Dynamic range stack](https://github.com/milesdiprata/cc-ds/blob/doc/src/milesdiprata/datastructure/stack/dynamic_range_stack.h) (`milesdiprata::datastructure::DynamicRangeStack`)
+The stack ADT implementations below use a *dynamic array*
+(`milesdiprata::datastructure::Stack<T>::DynamicArray`) as means of data
+storage.
+- [x] [Stack ADT](https://github.com/milesdiprata/cc-ds/blob/main/src/milesdiprata/datastructure/stack/stack.h) (`milesdiprata::datastructure::Stack`)
+- [x] [Static stack](https://github.com/milesdiprata/cc-ds/blob/main/src/milesdiprata/datastructure/stack/static_stack.h) (`milesdiprata::datastructure::StaticStack`)
+- [x] [Dynamic stack](https://github.com/milesdiprata/cc-ds/blob/main/src/milesdiprata/datastructure/stack/dynamic_stack.h) (`milesdiprata::datastructure::DynamicStack`)
+- [x] [Static range stack](https://github.com/milesdiprata/cc-ds/blob/main/src/milesdiprata/datastructure/stack/static_range_stack.h)) (`milesdiprata::datastructure::StaticRangeStack`)
+- [x] [Dynamic range stack](https://github.com/milesdiprata/cc-ds/blob/main/src/milesdiprata/datastructure/stack/dynamic_range_stack.h) (`milesdiprata::datastructure::DynamicRangeStack`)
 
 
 ### Linked List ADT
