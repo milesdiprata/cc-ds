@@ -67,7 +67,6 @@ class Stack {
         static constexpr size_t kMinimumCapacity = 1;
         
      private:
-
         struct OutOfRangeError : public std::out_of_range {
             OutOfRangeError() : std::out_of_range(kErrorMessage) {}
 
