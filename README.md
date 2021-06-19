@@ -36,6 +36,7 @@
 
 
 ## About The Project
+
 This project contains my own implementation of fundamental data structures and
 algorithms. It serves as an exercise to not only practice implementing the
 theoretical knowledge, but also to practice writing industry-level code using 
@@ -53,51 +54,61 @@ of the software  implemented in this project:
 
 
 ## Data Structures
+
 This section outlines the data strucutres implemented in this project. The data
 structures will be grouped by abstract data type (ADT) in a respective
 namespace and will all be contained within the `datastructure` namespace. For
 example, the `DynamicStack` data strucutre is an implementation of the `Stack`
 ADT, is contained within the `stack` namesapce, and may be used in the
 following manor:
+
 ```cpp
 DynamicStack<std::string> dynamic_stack =
-    milesdiprata::stack::DynamicStack<std::string>();
+    milesdiprata::datastructure::DynamicStack<std::string>();
 dynamic_stack.Push("Hello, DynamicStack!");
 ```
+
 Alternatively, dynamically allocating:
+
 ```cpp
 Stack<std::string>* dynamic_stack =
-    new milesdiprata::stack::DynamicStack<std::string>();
+    new milesdiprata::datastructure::DynamicStack<std::string>();
 dynamic_stack->Push("Hello, heap-space DynamicStack!");
 // ...
 delete dynamic_stack;
 ```
+
 However, if dynamic allocation is a must, then one should leverage smart
 pointers:
+
 ```cpp
-std::unique_ptr<milesdiprata::stack::Stack<std::string>> dynamic_stack =
-    std::make_unique<milesdiprata::stack::DynamicStack<std::string>>();
+std::unique_ptr<milesdiprata::datastructure::Stack<std::string>> dynamic_stack =
+    std::make_unique<milesdiprata::datastructure::DynamicStack<std::string>>();
 dynamic_stack->Push("Hello, heap-space DynamicStack!");
 ```
+
 These examples are simply meant to demonstrate the *implementation inheritance*
 that is used in this project. In practice, the above statements are quite long
 and I would personally use the `auto` keyword to save time. That is,
+
 ```cpp
 // Preferred
-auto dynamic_stack = milesdiprata::stack::DynamicStack<std::string>();
+auto dynamic_stack = milesdiprata::datastructure::DynamicStack<std::string>();
 dynamic_stack.Push("Hello, DynamicStack!");
 
 // If dynamic allocation is a must
 auto dynamic_stack =
-    std::make_unique<milesdiprata::stack::DynamicStack<std::string>>();
+    std::make_unique<milesdiprata::datastructure::DynamicStack<std::string>>();
 dynamic_stack->Push("Hello, heap-space DynamicStack!");
 ```
 
 
 ### Stack ADT
-The stack ADT implementations below use a *dynamic array*
+
+The stack ADT implementations will use a *dynamic array*
 (`milesdiprata::datastructure::Stack<T>::DynamicArray`) as means of data
 storage.
+
 - [x] [Stack ADT](https://github.com/milesdiprata/cc-ds/blob/main/src/milesdiprata/datastructure/stack/stack.h) (`milesdiprata::datastructure::Stack`)
 - [x] [Static stack](https://github.com/milesdiprata/cc-ds/blob/main/src/milesdiprata/datastructure/stack/static_stack.h) (`milesdiprata::datastructure::StaticStack`)
 - [x] [Dynamic stack](https://github.com/milesdiprata/cc-ds/blob/main/src/milesdiprata/datastructure/stack/dynamic_stack.h) (`milesdiprata::datastructure::DynamicStack`)
@@ -106,6 +117,7 @@ storage.
 
 
 ### Linked List ADT
+
 - [ ] Singly linked list
 - [ ] Doubly linked list
 - [ ] Sorted linked list
@@ -113,21 +125,27 @@ storage.
 
 
 ### Queue ADT
-#### Queue as Linked List
+
+The queue ADT implementations will use a *linked list* as means of data
+storage.
 - [ ] Queue
 
 
 ### Double-Ended Queue (Deque) ADT
-#### Deque as Linked List
+
+The deque ADT implementations will also use a *linked list* as means of data
+storage.
 - [ ] Deque
 
 
 ## Dictionary ADT
+
 - [ ] Hash set
 - [ ] Hash map
 
 
-#### Binary Tree ADT
+### Binary Tree ADT
+
 - [ ] Binary tree
 - [ ] Binary search tree
 - [ ] AVL (Adelson-Velsky and Landis) tree
@@ -135,15 +153,18 @@ storage.
 
 
 ### Tree ADT
+
 - [ ] B-tree
 - [ ] B+ tree
 
 
 ### Priority Queue (Heap) ADT
+
 - [ ] Binary Heap
 
 
 ### Graph ADT
+
 - [ ] Undirected graph
 - [ ] Directed graph
 
