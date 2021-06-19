@@ -46,7 +46,7 @@ class Stack {
         DynamicArray(const size_t capacity = kDefaultCapacity);
         DynamicArray(const DynamicArray& array);
         DynamicArray(DynamicArray&& array);
-        ~DynamicArray();
+        virtual ~DynamicArray();
 
         inline const size_t capacity() const { return capacity_; }
         inline const size_t size() const  { return size_; }
@@ -54,10 +54,15 @@ class Stack {
         const bool Empty() const;
         const T& Front() const;
         const T& Back() const;
+        const T* const Begin() const;
+        const T* const End() const;
+        void Resize(const size_t capacity);
 
-        void PushBack(const T& element);
-        const T PopBack();
-        void Clear();
+        virtual void PushBack(const T& element);
+        virtual const T PopBack();
+        virtual void Clear();
+        T* Begin();
+        T* End();
 
         inline T& operator[](size_t i) { return array_[i]; }
         inline const T& operator[](size_t i) const { return array_[i]; }
@@ -161,6 +166,34 @@ inline const T& Stack<T>::DynamicArray::Back() const {
     if (Empty())
         throw std::out_of_range("Array");
     return array_[size_ - 1];
+}
+
+template<typename T>
+inline const T* const Stack<T>::DynamicArray::Begin() const {
+    return array_.get();
+}
+
+template<typename T>
+inline const T* const Stack<T>::DynamicArray::End() const {
+    return array_.get() + array_.size();
+}
+
+template<typename T>
+inline T* Stack<T>::DynamicArray::Begin() {
+    return array_.get();
+}
+
+template<typename T>
+inline T* Stack<T>::DynamicArray::End() {
+    return array_.get() + array_.size();
+}
+
+template<typename T>
+void Stack<T>::DynamicArray::Resize(const size_t capacity) {
+    capacity_ = std::max(kMinimumCapacity, capacity);
+    auto new_array = std::make_unique<T[]>(capacity_);
+    std::copy(array_.get(), array_.get() + size_, new_array.get());
+    array_ = std::move(new_array);
 }
 
 template<typename T>

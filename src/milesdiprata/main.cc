@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include <milesdiprata/datastructure/stack/static_range_stack.h>
+#include <milesdiprata/datastructure/stack/dynamic_stack.h>
 
 using namespace std;
 using namespace milesdiprata::datastructure;
@@ -11,19 +11,19 @@ int main(const int argc, const char* const argv[]) {
         std::cout << word;
     }
 
-    auto s = StaticRangeStack<int>();
+    auto s = DynamicStack<int>();
     for (int i = 0; i < 10; ++i)
         s.Push(i);
     cout << s << " s: " << s.size() << " c: " << s.capacity() << endl;
-    cout << s.Minimum() << ", " << s.Maximum() << endl;
 
-    auto f = StaticRangeStack<int>(s);
-
+    s.Push(10);
     cout << s << " s: " << s.size() << " c: " << s.capacity() << endl;
-    cout << s.Minimum() << ", " << s.Maximum() << endl;
 
-    cout << f << " s: " << f.size() << " c: " << f.capacity() << endl;
-    cout << f.Minimum() << ", " << f.Maximum() << endl;
+    s.Clear();
+    cout << s << " s: " << s.size() << " c: " << s.capacity() << endl;
+
+
+    // cout << s.Minimum() << ", " << s.Maximum() << endl;
 
     return 0;
 }

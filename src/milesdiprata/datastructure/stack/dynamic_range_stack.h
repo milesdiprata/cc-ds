@@ -4,7 +4,6 @@
 #include <memory>
 
 #include <milesdiprata/datastructure/stack/dynamic_stack.h>
-#include <milesdiprata/datastructure/stack/range_stack.h>
 
 namespace milesdiprata {
 namespace datastructure {
@@ -12,7 +11,8 @@ namespace datastructure {
 template<typename T>
 class DynamicRangeStack : public RangeStack<T> {
  public:
-    DynamicRangeStack(const size_t capacity = Stack<T>::kDefaultCapacity);
+    DynamicRangeStack();
+    DynamicRangeStack(const size_t capacity);
     DynamicRangeStack(const RangeStack<T>& stack);
     DynamicRangeStack(const DynamicRangeStack<T>& stack);
     virtual ~DynamicRangeStack();
