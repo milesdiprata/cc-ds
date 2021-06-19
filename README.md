@@ -1,5 +1,7 @@
 # Data Structures and Algorithms - C++
 
+![Commit Activity][commit-activity-shield]
+![Repo Size][repo-size-shield]
 [![MIT License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
@@ -12,8 +14,19 @@
     <li><a href="#data-structures">Data Structures</a></li>
     <ol>
       <li><a href="#stack-adt">Stack ADT</a></li>
+      <li><a href="#linked-list-adt">Linked List ADT</a></li>
+      <li><a href="#queue-adt">Queue ADT</a></li>
+      <li><a href="#double-ended-queue-deque-adt">Double-Ended Queue (Deque) ADT</a></li>
+      <li><a href="#dictionary-adt">Dictionary ADT</a></li>
+      <li><a href="#binary-tree-adt">Binary Tree ADT</a></li>
+      <li><a href="#tree-adt">Tree ADT</a></li>
+      <li><a href="#priority-queue-heap-adt">Priority Queue (Heap) ADT</a></li>
+      <li><a href="#graph-adt">Graph ADT</a></li>
     </ol>
     <li><a href="#algorithms">Algorithms</a></li>
+    <ol>
+      <li><a href="#sorting">Sorting</a></li>
+    </ol>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="#acknowledgements">Acknowledgements</a></li>
@@ -44,20 +57,25 @@ This section outlines the data strucutres implemented in this project. The data
 structures will be grouped by abstract data type (ADT) in a respective
 namespace and will all be contained within the `datastructure` namespace. For
 example, the `DynamicStack` data strucutre is an implementation of the `Stack`
-ADT, and may be used in the following manor:
+ADT, is contained within the `stack` namesapce, and may be used in the
+following manor:
 ```cpp
-DynamicStack dynamic_stack = milesdiprata::stack::DynamicStack<std::string>();
+DynamicStack<std::string> dynamic_stack =
+    milesdiprata::stack::DynamicStack<std::string>();
 dynamic_stack.Push("Hello, DynamicStack!");
 ```
-Alternatively,
+Alternatively, dynamically allocating:
 ```cpp
-Stack* dynamic_stack = new milesdiprata::stack::DynamicStack<std::string>();
+Stack<std::string>* dynamic_stack =
+    new milesdiprata::stack::DynamicStack<std::string>();
 dynamic_stack->Push("Hello, heap-space DynamicStack!");
+// ...
+delete dynamic_stack;
 ```
 However, if dynamic allocation is a must, then one should leverage smart
 pointers:
 ```cpp
-std::unique_ptr<milesdiprata::stack::Stack> dynamic_stack =
+std::unique_ptr<milesdiprata::stack::Stack<std::string>> dynamic_stack =
     std::make_unique<milesdiprata::stack::DynamicStack<std::string>>();
 dynamic_stack->Push("Hello, heap-space DynamicStack!");
 ```
@@ -70,61 +88,61 @@ auto dynamic_stack = milesdiprata::stack::DynamicStack<std::string>();
 dynamic_stack.Push("Hello, DynamicStack!");
 
 // If dynamic allocation is a must
-auto dyanmic_stack =
+auto dynamic_stack =
     std::make_unique<milesdiprata::stack::DynamicStack<std::string>>();
 dynamic_stack->Push("Hello, heap-space DynamicStack!");
 ```
 
 
 ### Stack ADT
-#### Stack as Array
-- [x] [Static stack](https://github.com/milesdiprata/cc-ds/blob/doc/src/milesdiprata/datastructure/stack/stack.h) (`milesdiprata::datastructure::Stack`)
+The stack ADTs are all currently implemented using *arrays*.
+- [x] [Static stack](https://github.com/milesdiprata/cc-ds/blob/doc/src/milesdiprata/datastructure/stack/stack.h) (`milesdiprata::datastructure::StaticStack`)
 - [x] [Dynamic stack](https://github.com/milesdiprata/cc-ds/blob/doc/src/milesdiprata/datastructure/stack/dynamic_stack.h) (`milesdiprata::datastructure::DynamicStack`)
-- [x] [Range stack](https://github.com/milesdiprata/cc-ds/blob/doc/src/milesdiprata/datastructure/stack/range_stack.h) (`milesdiprata::datastructure::RangeStack`)
+- [x] [Static range stack](https://github.com/milesdiprata/cc-ds/blob/doc/src/milesdiprata/datastructure/stack/range_stack.h) (`milesdiprata::datastructure::StaticRangeStack`)
 - [x] [Dynamic range stack](https://github.com/milesdiprata/cc-ds/blob/doc/src/milesdiprata/datastructure/stack/dynamic_range_stack.h) (`milesdiprata::datastructure::DynamicRangeStack`)
 
 
-### Queue ADT
-#### Queue as Array
-- [] Queue
-
-
-### Double-Ended Queue (Deque)
-#### Deque as Array
-- [] Deque
-
-
 ### Linked List ADT
-- [] Singly linked list
-- [] Doubly linked list
-- [] Sorted linked list
-- [] Circular linked list
+- [ ] Singly linked list
+- [ ] Doubly linked list
+- [ ] Sorted linked list
+- [ ] Circular linked list
+
+
+### Queue ADT
+#### Queue as Linked List
+- [ ] Queue
+
+
+### Double-Ended Queue (Deque) ADT
+#### Deque as Linked List
+- [ ] Deque
 
 
 ## Dictionary ADT
-- [] Hash set
-- [] Hash map
+- [ ] Hash set
+- [ ] Hash map
 
 
 #### Binary Tree ADT
-- [] Binary tree
-- [] Binary search tree
-- [] AVL (Adelson-Velsky and Landis) tree
-- [] Red-black tree
+- [ ] Binary tree
+- [ ] Binary search tree
+- [ ] AVL (Adelson-Velsky and Landis) tree
+- [ ] Red-black tree
 
 
 ### Tree ADT
-- [] B-tree
-- [] B+ tree
+- [ ] B-tree
+- [ ] B+ tree
 
 
-### Priority Queue/Heap ADT
-- [] Binary Heap
+### Priority Queue (Heap) ADT
+- [ ] Binary Heap
 
 
 ### Graph ADT
-- [] Undirected graph
-- [] Directed graph
+- [ ] Undirected graph
+- [ ] Directed graph
 
 
 
@@ -132,14 +150,14 @@ dynamic_stack->Push("Hello, heap-space DynamicStack!");
 
 
 ### Sorting
-- [] Bubble sort
-- [] Insertion sort
-- [] Selection sort
-- [] Merge sort
-- [] Quick sort
-- [] Heap sort
-- [] Counting sort
-- [] Radix sort
+- [ ] Bubble sort
+- [ ] Insertion sort
+- [ ] Selection sort
+- [ ] Merge sort
+- [ ] Quick sort
+- [ ] Heap sort
+- [ ] Counting sort
+- [ ] Radix sort
 
 
 ## License
@@ -158,24 +176,13 @@ Project Link: [https://github.com/milesdiprata/cc-ds](https://github.com/milesdi
 
 ## Acknowledgements
 
-* []()
-* []()
-* []()
+* [Best-README-Template](https://github.com/othneildrew/Best-README-Template)
 
 
 
-
-
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/milesdiprata/repo.svg?style=for-the-badge
-[contributors-url]: https://github.com/milesdiprata/repo/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/milesdiprata/repo.svg?style=for-the-badge
-[forks-url]: https://github.com/milesdiprata/repo/network/members
-[stars-shield]: https://img.shields.io/github/stars/milesdiprata/repo.svg?style=for-the-badge
-[stars-url]: https://github.com/milesdiprata/repo/stargazers
-[issues-shield]: https://img.shields.io/github/issues/milesdiprata/repo.svg?style=for-the-badge
-[issues-url]: https://github.com/milesdiprata/repo/issues
-[license-shield]: https://img.shields.io/github/license/milesdiprata/repo.svg?style=for-the-badge
-[license-url]: https://github.com/milesdiprata/repo/blob/master/LICENSE.txt
+[commit-activity-shield]: https://img.shields.io/github/commit-activity/m/milesdiprata/cc-ds?style=for-the-badge
+[repo-size-shield]: https://img.shields.io/github/languages/code-size/milesdiprata/cc-ds?style=for-the-badge
+[license-shield]: https://img.shields.io/github/license/milesdiprata/cc-ds.svg?style=for-the-badge
+[license-url]: https://github.com/milesdiprata/cc-ds/blob/main/LICENSE
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/milesdiprata
+[linkedin-url]: https://www.linkedin.com/in/miles-di-prata-9aa746147/
