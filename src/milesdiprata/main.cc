@@ -1,7 +1,5 @@
 #include <iostream>
 
-#include <milesdiprata/datastructure/stack/dynamic_range_stack.h>
-
 using namespace std;
 using namespace milesdiprata::datastructure;
 
