@@ -1,129 +1,95 @@
-#ifndef MILESDIPRATA_DATASTRUCTURE_RANGE_STACK_H_
-#define MILESDIPRATA_DATASTRUCTURE_RANGE_STACK_H_
+#ifndef MILESDIPRATA_DATASTRUCTURE_RANGE_STACK_AS_ARRAY_H_
+#define MILESDIPRATA_DATASTRUCTURE_RANGE_STACK_AS_ARRAY_H_
 
-#include <iostream>
-#include <memory>
-#include <utility>
+#include <algorithm>
 
-#include <milesdiprata/datastructure/stack/base_stack.h>
 #include <milesdiprata/datastructure/stack/stack.h>
 
 namespace milesdiprata {
 namespace datastructure {
 
 template<typename T>
-class RangeStack;
-
-template<typename T>
-std::ostream& operator<<(std::ostream& os, const RangeStack<T>& stack);
-
-template<typename T>
-class RangeStack : public BaseStack<T> {
+class RangeStack : virtual public Stack<T> {
  public:
     RangeStack(const size_t capacity = Stack<T>::kDefaultCapacity);
-    RangeStack(const Stack<T>& stack);
     RangeStack(const RangeStack& stack);
     virtual ~RangeStack();
 
     const T& Minimum() const;
     const T& Maximum() const;
 
-    // Implements BaseStack<T> ------------------------------------------------
-    inline const size_t capacity() const final { return stack_->capacity(); }
-    inline const size_t size() const final { return stack_->size(); }
-    
-    inline const bool Empty() const final { return stack_->Empty(); }
-    inline const T& Top() const final { return stack_->Top(); }
-
-    void Push(const T& element) final;
-    const T Pop() final;
-    void Clear() final;
-
-    friend std::ostream& operator<< <>(std::ostream& os,
-                                       const RangeStack& stack);
+    // Implements Stack<T> ----------------------------------------------------
+    virtual void Push(const T& element) = 0;
+    virtual const T Pop() = 0;
+    virtual void Clear() = 0;
 
  protected:
-    inline const Stack<T>& stack() const { return *stack_; }
-    inline void set_stack(std::unique_ptr<Stack<T>>&& stack) {
-        stack_ = std::move(stack);
+    inline const typename Stack<T>::Array& minimum_elements() const {
+        return minimum_elements;
     }
-    inline Stack<T>* mutable_stack() { return stack_.get(); }
-
-    inline const Stack<T>& minimum_stack() const { return *minimum_stack_; }
-    inline void set_minimum_stack(std::unique_ptr<Stack<T>>&& stack) {
-        minimum_stack_ = std::move(stack);
+    inline typename Stack<T>::Array* mutable_minimum_elements() {
+        return minimum_elements;
     }
-    inline Stack<T>* mutable_minimum_stack() { return minimum_stack_.get(); }
 
-    inline const Stack<T>& maximum_stack() const { return *maximum_stack_; }
-    inline void set_maximum_stack(std::unique_ptr<Stack<T>>&& stack) {
-        maximum_stack_ = std::move(stack);
+    inline const typename Stack<T>::Array& maximum_elements() const {
+        return maximum_elements_;
     }
-    inline Stack<T>* mutable_maximum_stack() { return maximum_stack_.get(); }
+    inline typename Stack<T>::Array* mutable_maximum_elements() {
+        return maximum_elements_;
+    }
 
-    std::unique_ptr<Stack<T>> stack_;
-    std::unique_ptr<Stack<T>> minimum_stack_;
-    std::unique_ptr<Stack<T>> maximum_stack_;
+ private:
+    typename Stack<T>::Array minimum_elements_;
+    typename Stack<T>::Array maximum_elements_;
 };
 
 template<typename T>
-RangeStack<T>::RangeStack(const size_t capacity) :
-    stack_(new Stack<T>(capacity)),
-    minimum_stack_(std::make_unique<Stack<T>>(capacity)),
-    maximum_stack_(std::make_unique<Stack<T>>(capacity)) {}
+RangeStack<T>::RangeStack(const size_t capacity) : Stack<T>(capacity) {
+    size_t bounded_capacity = std::max(Stack<T>::kMinimumCapacity, capacity);
+    minimum_elements_.capacity = bounded_capacity;
+    minimum_elements_.size = 0;
+    minimum_elements_.elements = std::make_unique<T[]>(bounded_capacity);
+
+    maximum_elements_.capacity = bounded_capacity;
+    maximum_elements_.size = 0;
+    maximum_elements_.elements = std::make_unique<T[]>(bounded_capacity);
+}
 
 template<typename T>
-RangeStack<T>::RangeStack(const RangeStack& stack) :
-    stack_(std::make_unique<Stack<T>>(*stack.stack_)),
-    minimum_stack_(std::make_unique<Stack<T>>(*stack.minimum_stack_)),
-    maximum_stack_(std::make_unique<Stack<T>>(*stack.maximum_stack_)) {}
+RangeStack<T>::RangeStack(const RangeStack& stack) : Stack<T>(stack) {
+    minimum_elements_.capacity = stack.array_.capacity;
+    minimum_elements_.size = stack.array_.size;
+    minimum_elements_.elements = std::make_unique<T[]>(minimum_elements_.capacity);
+    std::copy(stack.array_.elements.get(),
+              stack.array_.elements.get() + stack.array_.size,
+              minimum_elements_.elements.get());
+
+    maximum_elements_.capacity = stack.array_.capacity;
+    maximum_elements_.size = stack.array_.size;
+    maximum_elements_.elements = std::make_unique<T[]>(maximum_elements_.capacity);
+    std::copy(stack.array_.elements.get(),
+              stack.array_.elements.get() + stack.array_.size,
+              maximum_elements_.elements.get());
+}
 
 template<typename T>
 RangeStack<T>::~RangeStack() {}
 
 template<typename T>
 inline const T& RangeStack<T>::Minimum() const {
-    return minimum_stack_->Top();
+    if (minimum_elements_.size == 0)
+        throw typename Stack<T>::UnderflowError();
+    return minimum_elements_.elements[minimum_elements_.size - 1];
 }
 
 template<typename T>
 inline const T& RangeStack<T>::Maximum() const {
-    return maximum_stack_->Top();
-}
-
-template<typename T>
-inline void RangeStack<T>::Push(const T& element) {
-    stack_->Push(element);
-    if (minimum_stack_->Empty() || element < minimum_stack_->Top())
-        minimum_stack_->Push(element);
-    if (maximum_stack_->Empty() || element > maximum_stack_->Top())
-        maximum_stack_->Push(element);
-}
-
-template<typename T>
-inline const T RangeStack<T>::Pop() {
-    auto element = stack_->Pop();
-    if (!minimum_stack_->Empty() && minimum_stack_->Top() == element)
-        minimum_stack_->Pop();
-    if (!maximum_stack_->Empty() && maximum_stack_->Top() == element)
-        maximum_stack_->Pop();
-    return element;
-}
-
-template<typename T>
-inline void RangeStack<T>::Clear() {
-    stack_->Clear();
-    minimum_stack_->Clear();
-    maximum_stack_->Clear();
-}
-
-template<typename T>
-std::ostream& operator<<(std::ostream& os, const RangeStack<T>& stack) {
-    os << *stack.stack_;
-    return os;
+    if (maximum_elements_.size == 0)
+        throw typename Stack<T>::UnderflowError();
+    return maximum_elements_.elements[maximum_elements_.size - 1];
 }
 
 } // namespace datastructure
 } // namespace milesdiprata
 
-#endif // MILESDIPRATA_DATASTRUCTURE_RANGE_STACK_H_
+#endif // MILESDIPRATA_DATASTRUCTURE_STATIC_RANGE_STACK_AS_ARRAY_H_
