@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "milesdiprata/datastructure/stack/dynamic_stack.h"
+#include "milesdiprata/datastructure/stack/static_range_stack.h"
 
 int main(const int argc, const char* const argv[]) {
   auto words = {"Hello, ", "world!", "\n"};
@@ -8,14 +8,25 @@ int main(const int argc, const char* const argv[]) {
     std::cout << word;
   }
 
-  auto s = milesdiprata::datastructure::DynamicStack<int>();
+  auto s = milesdiprata::datastructure::StaticRangeStack<int>();
 
   for (int i = 0; i < 10; ++i) {
     s.Push(i + 1);
   }
-
+  std::cout << s.Maximum() << "\n";
+  std::cout << s.Minimum() << "\n";
   std::cout << s << "\n";
-  s.Push(11);
+
+  s.Pop();
+  std::cout << s.Maximum() << "\n";
+  std::cout << s.Minimum() << "\n";
+  std::cout << s << "\n";
+
+  s.Pop();
+  std::cout << s.Maximum() << "\n";
+  std::cout << s.Minimum() << "\n";
+  std::cout << s << "\n";
+
   std::cout << s << "\n";
 
   s.Clear();
