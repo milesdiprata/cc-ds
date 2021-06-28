@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "milesdiprata/datastructure/stack/static_stack.h"
+#include "milesdiprata/datastructure/stack/dynamic_stack.h"
 
 int main(const int argc, const char* const argv[]) {
   auto words = {"Hello, ", "world!", "\n"};
@@ -8,21 +8,22 @@ int main(const int argc, const char* const argv[]) {
     std::cout << word;
   }
 
-  auto s = milesdiprata::datastructure::StaticStack<int>();
+  auto s = milesdiprata::datastructure::DynamicStack<int>();
 
   for (int i = 0; i < 10; ++i) {
     s.Push(i + 1);
   }
 
   std::cout << s << "\n";
+  s.Push(11);
+  std::cout << s << "\n";
 
-  for (int i = 0; i < 10; ++i) {
-    std::cout << s.Pop() << "\n";
-  }
+  s.Clear();
 
   std::cout << s << "\n";
 
   s.Pop();
+  std::cout << s << "\n";
 
   return 0;
 }

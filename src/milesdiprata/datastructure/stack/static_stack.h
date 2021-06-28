@@ -43,7 +43,11 @@ inline void StaticStack<T>::Push(const T& element) {
 
 template <typename T>
 inline const T StaticStack<T>::Pop() {
-  return Stack<T>::array().PopBack();
+  try {
+    return Stack<T>::array().PopBack();
+  } catch (const std::out_of_range& error) {
+    throw typename Stack<T>::UnderflowError();
+  }
 }
 
 template <typename T>
