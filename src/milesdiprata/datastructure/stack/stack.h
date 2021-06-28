@@ -196,6 +196,7 @@ template <typename T>
 const T Stack<T>::DynamicArray::PopBack() {
   auto element = Back();
   --size_;
+
   return element;
 }
 

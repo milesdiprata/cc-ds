@@ -73,6 +73,7 @@ inline void DynamicStack<T>::Clear() {
   if (Stack<T>::capacity() != initial_capacity_) {
     Stack<T>::array().Resize(initial_capacity_);
   }
+
   Stack<T>::array().Clear();
 }
 

@@ -69,6 +69,7 @@ inline const T& StaticRangeStack<T>::Maximum() const {
 template <typename T>
 inline void StaticRangeStack<T>::Push(const T& element) {
   StaticStack<T>::Push(element);
+
   if (minimum_array_.Empty() || element < minimum_array_.Back()) {
     minimum_array_.PushBack(element);
   }
@@ -80,6 +81,7 @@ inline void StaticRangeStack<T>::Push(const T& element) {
 template <typename T>
 inline const T StaticRangeStack<T>::Pop() {
   auto element = StaticStack<T>::Pop();
+
   if (!minimum_array_.Empty() && minimum_array_.Back() == element) {
     minimum_array_.PopBack();
   }
