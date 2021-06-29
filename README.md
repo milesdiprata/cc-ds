@@ -114,6 +114,7 @@ storage.
 - [x] [Dynamic stack](https://github.com/milesdiprata/cc-ds/blob/main/src/milesdiprata/datastructure/stack/dynamic_stack.h) (`milesdiprata::datastructure::DynamicStack`)
 - [x] [Static range stack](https://github.com/milesdiprata/cc-ds/blob/main/src/milesdiprata/datastructure/stack/static_range_stack.h)) (`milesdiprata::datastructure::StaticRangeStack`)
 - [x] [Dynamic range stack](https://github.com/milesdiprata/cc-ds/blob/main/src/milesdiprata/datastructure/stack/dynamic_range_stack.h) (`milesdiprata::datastructure::DynamicRangeStack`)
+- [ ] Documentation
 
 
 ### Linked List ADT
@@ -128,7 +129,10 @@ storage.
 
 The queue ADT implementations will use a *linked list* as means of data
 storage.
-- [ ] Queue
+- [ ] Queue (as array)
+- [ ] Queue (as linked list)
+- [ ] Ring buffer
+
 
 
 ### Double-Ended Queue (Deque) ADT
