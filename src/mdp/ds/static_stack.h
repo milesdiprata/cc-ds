@@ -1,10 +1,9 @@
-#ifndef CC_DS_MILESDIPRATA_DATASTRUCTURE_STATIC_STACK_H_
-#define CC_DS_MILESDIPRATA_DATASTRUCTURE_STATIC_STACK_H_
+#pragma once
 
-#include "milesdiprata/datastructure/stack/stack.h"
+#include "mdp/ds/stack.h"
 
-namespace milesdiprata {
-namespace datastructure {
+namespace mdp {
+namespace ds {
 
 template <typename T>
 class StaticStack : public Stack<T> {
@@ -55,7 +54,5 @@ inline void StaticStack<T>::Clear() {
   Stack<T>::array().Clear();
 }
 
-}  // namespace datastructure
-}  // namespace milesdiprata
-
-#endif  // CC_DS_MILESDIPRATA_DATASTRUCTURE_STATIC_STACK_H_
+}  // namespace ds
+}  // namespace mdp

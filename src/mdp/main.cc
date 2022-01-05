@@ -1,6 +1,6 @@
 #include <iostream>
 
-int main(const int argc, const char* const argv[]) {
+int main(int, const char*[]) {
   auto words = {"Hello, ", "world!", "\n"};
   for (const auto& word : words) {
     std::cout << word;

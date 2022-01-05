@@ -1,5 +1,4 @@
-#ifndef CC_DS_MILESDIPRATA_DATASTRUCTURE_STACK_H_
-#define CC_DS_MILESDIPRATA_DATASTRUCTURE_STACK_H_
+#pragma once
 
 #include <algorithm>
 #include <cstddef>
@@ -8,8 +7,8 @@
 #include <stdexcept>
 #include <utility>
 
-namespace milesdiprata {
-namespace datastructure {
+namespace mdp {
+namespace ds {
 
 template <typename T>
 class Stack;
@@ -219,7 +218,5 @@ std::ostream& operator<<(std::ostream& os, const Stack<T>& stack) {
   return os;
 }
 
-}  // namespace datastructure
-}  // namespace milesdiprata
-
-#endif  // CC_DS_MILESDIPRATA_DATASTRUCTURE_STACK_H_
+}  // namespace ds
+}  // namespace mdp

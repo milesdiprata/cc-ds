@@ -1,10 +1,9 @@
-#ifndef CC_DS_MILESDIPRATA_DATASTRUCTURE_DYNAMIC_RANGE_STACK_H_
-#define CC_DS_MILESDIPRATA_DATASTRUCTURE_DYNAMIC_RANGE_STACK_H_
+#pragma once
 
-#include "milesdiprata/datastructure/stack/dynamic_stack.h"
+#include "mdp/ds/dynamic_stack.h"
 
-namespace milesdiprata {
-namespace datastructure {
+namespace mdp {
+namespace ds {
 
 template <typename T>
 class DynamicRangeStack : public DynamicStack<T> {
@@ -117,7 +116,5 @@ inline void DynamicRangeStack<T>::Clear() {
   maximum_array_.Clear();
 }
 
-}  // namespace datastructure
-}  // namespace milesdiprata
-
-#endif  // CC_DS_MILESDIPRATA_DATASTRUCTURE_DYNAMIC_RANGE_STACK_H_
+}  // namespace ds
+}  // namespace mdp

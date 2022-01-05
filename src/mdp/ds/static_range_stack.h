@@ -1,10 +1,9 @@
-#ifndef CC_DS_MILESDIPRATA_DATASTRUCTURE_STATIC_RANGE_STACK_H_
-#define CC_DS_MILESDIPRATA_DATASTRUCTURE_STATIC_RANGE_STACK_H_
+#pragma once
 
-#include "milesdiprata/datastructure/stack/static_stack.h"
+#include "mdp/ds/static_stack.h"
 
-namespace milesdiprata {
-namespace datastructure {
+namespace mdp {
+namespace ds {
 
 template <typename T>
 class StaticRangeStack : public StaticStack<T> {
@@ -99,7 +98,5 @@ inline void StaticRangeStack<T>::Clear() {
   maximum_array_.Clear();
 }
 
-}  // namespace datastructure
-}  // namespace milesdiprata
-
-#endif  // CC_DS_MILESDIPRATA_DATASTRUCTURE_STATIC_RANGE_STACK_H_
+}  // namespace ds
+}  // namespace mdp

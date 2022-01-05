@@ -1,10 +1,9 @@
-#ifndef CC_DS_MILESDIPRATA_DATASTRUCTURE_DYNAMIC_STACK_H_
-#define CC_DS_MILESDIPRATA_DATASTRUCTURE_DYNAMIC_STACK_H_
+#pragma once
 
-#include "milesdiprata/datastructure/stack/static_stack.h"
+#include "mdp/ds/static_stack.h"
 
-namespace milesdiprata {
-namespace datastructure {
+namespace mdp {
+namespace ds {
 
 template <typename T>
 class DynamicStack : public Stack<T> {
@@ -77,7 +76,5 @@ inline void DynamicStack<T>::Clear() {
   Stack<T>::array().Clear();
 }
 
-}  // namespace datastructure
-}  // namespace milesdiprata
-
-#endif  // CC_DS_MILESDIPRATA_DATASTRUCTURE_DYNAMIC_STACK_H_
+}  // namespace ds
+}  // namespace mdp
