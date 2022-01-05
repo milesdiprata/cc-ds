@@ -57,9 +57,8 @@ of the software  implemented in this project:
 
 This section outlines the data structures implemented in this project. The data
 structures will be grouped by abstract data type (ADT) and are all be contained
-within the `datastructure` namespace. For example, the `DynamicStack` data
-structure is an implementation of the `Stack` ADT may be used in the following
-manor:
+within the `ds` namespace. For example, the `DynamicStack` data structure is an
+implementation of the `Stack` ADT may be used in the following manor:
 
 ```cpp
 DynamicStack<std::string> dynamic_stack = mdp::ds::DynamicStack<std::string>();
