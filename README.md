@@ -55,16 +55,14 @@ of the software  implemented in this project:
 
 ## Data Structures
 
-This section outlines the data strucutres implemented in this project. The data
-structures will be grouped by abstract data type (ADT) in a respective
-namespace and will all be contained within the `datastructure` namespace. For
-example, the `DynamicStack` data strucutre is an implementation of the `Stack`
-ADT, is contained within the `stack` namesapce, and may be used in the
-following manor:
+This section outlines the data structures implemented in this project. The data
+structures will be grouped by abstract data type (ADT) and are all be contained
+within the `datastructure` namespace. For example, the `DynamicStack` data
+structure is an implementation of the `Stack` ADT may be used in the following
+manor:
 
 ```cpp
-DynamicStack<std::string> dynamic_stack =
-    milesdiprata::datastructure::DynamicStack<std::string>();
+DynamicStack<std::string> dynamic_stack = mdp::ds::DynamicStack<std::string>();
 dynamic_stack.Push("Hello, DynamicStack!");
 ```
 
@@ -72,7 +70,7 @@ Alternatively, dynamically allocating:
 
 ```cpp
 Stack<std::string>* dynamic_stack =
-    new milesdiprata::datastructure::DynamicStack<std::string>();
+    new mdp::ds::DynamicStack<std::string>();
 dynamic_stack->Push("Hello, heap-space DynamicStack!");
 // ...
 delete dynamic_stack;
@@ -82,8 +80,8 @@ However, if dynamic allocation is a must, then one should leverage smart
 pointers:
 
 ```cpp
-std::unique_ptr<milesdiprata::datastructure::Stack<std::string>> dynamic_stack =
-    std::make_unique<milesdiprata::datastructure::DynamicStack<std::string>>();
+std::unique_ptr<mdp::ds::Stack<std::string>> dynamic_stack =
+    std::make_unique<mdp::ds::DynamicStack<std::string>>();
 dynamic_stack->Push("Hello, heap-space DynamicStack!");
 ```
 
@@ -93,12 +91,11 @@ and I would personally use the `auto` keyword to save time. That is,
 
 ```cpp
 // Preferred
-auto dynamic_stack = milesdiprata::datastructure::DynamicStack<std::string>();
+auto dynamic_stack = mdp::ds::DynamicStack<std::string>();
 dynamic_stack.Push("Hello, DynamicStack!");
 
 // If dynamic allocation is a must
-auto dynamic_stack =
-    std::make_unique<milesdiprata::datastructure::DynamicStack<std::string>>();
+auto dynamic_stack = std::make_unique<mdp::ds::DynamicStack<std::string>>();
 dynamic_stack->Push("Hello, heap-space DynamicStack!");
 ```
 
@@ -106,14 +103,14 @@ dynamic_stack->Push("Hello, heap-space DynamicStack!");
 ### Stack ADT
 
 The stack ADT implementations will use a *dynamic array*
-(`milesdiprata::datastructure::Stack<T>::DynamicArray`) as means of data
+(`mdp::ds::Stack<T>::DynamicArray`) as means of data
 storage.
 
-- [x] [Stack ADT](https://github.com/milesdiprata/cc-ds/blob/main/src/milesdiprata/datastructure/stack/stack.h) (`milesdiprata::datastructure::Stack`)
-- [x] [Static stack](https://github.com/milesdiprata/cc-ds/blob/main/src/milesdiprata/datastructure/stack/static_stack.h) (`milesdiprata::datastructure::StaticStack`)
-- [x] [Dynamic stack](https://github.com/milesdiprata/cc-ds/blob/main/src/milesdiprata/datastructure/stack/dynamic_stack.h) (`milesdiprata::datastructure::DynamicStack`)
-- [x] [Static range stack](https://github.com/milesdiprata/cc-ds/blob/main/src/milesdiprata/datastructure/stack/static_range_stack.h)) (`milesdiprata::datastructure::StaticRangeStack`)
-- [x] [Dynamic range stack](https://github.com/milesdiprata/cc-ds/blob/main/src/milesdiprata/datastructure/stack/dynamic_range_stack.h) (`milesdiprata::datastructure::DynamicRangeStack`)
+- [x] [Stack ADT](https://github.com/milesdiprata/cc-ds/blob/main/src/milesdiprata/datastructure/stack/stack.h) (`mdp::ds::Stack`)
+- [x] [Static stack](https://github.com/milesdiprata/cc-ds/blob/main/src/milesdiprata/datastructure/stack/static_stack.h) (`mdp::ds::StaticStack`)
+- [x] [Dynamic stack](https://github.com/milesdiprata/cc-ds/blob/main/src/milesdiprata/datastructure/stack/dynamic_stack.h) (`mdp::ds::DynamicStack`)
+- [x] [Static range stack](https://github.com/milesdiprata/cc-ds/blob/main/src/milesdiprata/datastructure/stack/static_range_stack.h)) (`mdp::ds::StaticRangeStack`)
+- [x] [Dynamic range stack](https://github.com/milesdiprata/cc-ds/blob/main/src/milesdiprata/datastructure/stack/dynamic_range_stack.h) (`mdp::ds::DynamicRangeStack`)
 - [ ] Documentation
 
 
